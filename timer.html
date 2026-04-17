@@ -259,7 +259,39 @@
     padding: 0.8rem;
   }
 
-  #overtime-banner.show { display: block; }
+  /* ── LEYENDA ATAJOS ─────────────────────────────────── */
+  #shortcuts {
+    position: fixed;
+    top: 9rem;
+    left: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    opacity: 0.25;
+    transition: opacity 0.2s ease;
+  }
+
+  #shortcuts:hover { opacity: 0.7; }
+
+  .shortcut {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--mid);
+  }
+
+  .key {
+    border: 1px solid var(--mid);
+    border-radius: 3px;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.6rem;
+    color: var(--mid);
+    line-height: 1.4;
+    min-width: 1.8rem;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
@@ -298,6 +330,13 @@
 </div>
 
 <div id="overtime-banner">⚠ tiempo consumido</div>
+
+<div id="shortcuts">
+  <div class="shortcut"><span class="key">Space</span> iniciar / pausar</div>
+  <div class="shortcut"><span class="key">R</span> reset</div>
+  <div class="shortcut"><span class="key">M</span> +1 min</div>
+  <div class="shortcut"><span class="key">S</span> −30 seg</div>
+</div>
 
 <script>
   // ── ESTADO ───────────────────────────────────────────
