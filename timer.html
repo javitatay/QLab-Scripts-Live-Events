@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temporizador</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400&display=swap');
+
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f0f0f0;
+    --accent: #e8ff00;
+    --danger: #ff3c00;
+    --mid: #888;
+    --border: #222;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'IBM Plex Mono', monospace;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ── MODO ───────────────────────────────────────────── */
+  #mode-label {
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  /* ── DISPLAY PRINCIPAL ──────────────────────────────── */
+  #display {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(10rem, 38vw, 32rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    transition: color 0.3s ease;
+    text-align: center;
+    min-width: 3ch;
+  }
+
+  #display.warning {
+    color: var(--accent);
+    animation: pulse-warning 1s ease-in-out infinite;
+  }
+
+  #display.danger {
+    color: var(--danger);
+    animation: pulse-danger 0.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse-warning {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes pulse-danger {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ── BARRA DE PROGRESO ──────────────────────────────── */
+  #progress-track {
+    width: min(80vw, 700px);
+    height: 3px;
+    background: var(--border);
+    margin-top: 3rem;
+    position: relative;
+  }
+
+  #progress-bar {
+    height: 100%;
+    background: var(--accent);
+    width: 100%;
+    transform-origin: left;
+    transition: width 1s linear, background 0.3s ease;
+  }
+
+  #progress-bar.warning { background: var(--accent); }
+  #progress-bar.danger  { background: var(--danger); }
+
+  /* ── ESTADO ─────────────────────────────────────────── */
+  #status {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    color: var(--mid);
+    text-transform: uppercase;
+    height: 1em;
+  }
+
+  /* ── CONTROLES ──────────────────────────────────────── */
+  #controls {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 2.5rem;
+  }
+
+  /* ── MENSAJES AL PONENTE ────────────────────────────── */
+  #message-display {
+    display: none;
+    margin-top: 2rem;
+    color: var(--accent);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: 0.1em;
+    text-align: center;
+    word-break: break-word;
+    width: min(80vw, 800px);
+    min-height: 1.2em;
+  }
+
+  #message-display.visible { display: block; }
+
+  #message-area {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 1.5rem;
+    width: min(80vw, 700px);
+  }
+
+  #message-input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 0.6rem 1rem;
+    flex: 1;
+    outline: none;
+    letter-spacing: 0.05em;
+    transition: border-color 0.15s ease;
+  }
+
+  #message-input::placeholder {
+    color: var(--mid);
+  }
+
+  #message-input:focus {
+    border-color: var(--accent);
+  }
+
+  button {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--mid);
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  button:hover {
+    border-color: var(--fg);
+    color: var(--fg);
+  }
+
+  button.primary {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  button.primary:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ── SELECTOR DE MODO ───────────────────────────────── */
+  #mode-toggle {
+    position: fixed;
+    top: 2rem;
+    right: 2.5rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .mode-btn {
+    font-size: 0.65rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .mode-btn.active {
+    border-color: var(--fg);
+    color: var(--fg);
+  }
+
+  /* ── CONFIG (tiempo inicial) ────────────────────────── */
+  #config {
+    position: fixed;
+    top: 2rem;
+    left: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  #config label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--mid);
+    text-transform: uppercase;
+  }
+
+  #config input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 0.3rem 0.6rem;
+    width: 100px;
+    text-align: center;
+    outline: none;
+  }
+
+  #config input:focus {
+    border-color: var(--accent);
+  }
+
+  #display.overtime {
+    color: var(--danger);
+  }
+
+  #progress-bar.overtime { background: var(--danger); width: 0% !important; }
+
+  /* ── BANNER TIEMPO CONSUMIDO ────────────────────────── */
+  #overtime-banner {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--danger);
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0.8rem;
+  }
+
+  #overtime-banner.show { display: block; }
+</style>
+</head>
+<body>
+
+<div id="config">
+  <label>Minutos</label>
+  <input type="number" id="input-minutes" value="5" min="0" max="99">
+  <label style="margin-top:0.3rem">Segundos</label>
+  <input type="number" id="input-seconds" value="0" min="0" max="59">
+</div>
+
+<div id="mode-toggle">
+  <button class="mode-btn active" onclick="setMode('countdown')" id="btn-countdown">Cuenta atrás</button>
+  <button class="mode-btn" onclick="setMode('countup')" id="btn-countup">Cuenta adelante</button>
+</div>
+
+<div id="mode-label">CUENTA ATRÁS</div>
+<div id="display">05:00</div>
+<div id="progress-track"><div id="progress-bar"></div></div>
+<div id="status">listo</div>
+
+<div id="message-display"></div>
+
+<div id="controls">
+  <button onclick="resetTimer()">Reset</button>
+  <button class="primary" id="btn-startstop" onclick="toggleTimer()">Iniciar</button>
+  <button id="btn-pause" onclick="pauseTimer()" style="display:none">Pausar</button>
+  <button onclick="subtractThirty()">−30 seg</button>
+  <button onclick="addMinute()">+1 min</button>
+</div>
+
+<div id="message-area">
+  <input type="text" id="message-input" placeholder="Mensaje al ponente… (Enter para enviar, Esc para borrar)">
+  <button onclick="sendMessage()">Enviar</button>
+  <button onclick="clearMessage()">Borrar</button>
+</div>
+
+<div id="overtime-banner">⚠ tiempo consumido</div>
+
+<script>
+  // ── ESTADO ───────────────────────────────────────────
+  let mode = 'countdown';      // 'countdown' | 'countup'
+  let running = false;
+  let interval = null;
+  let elapsed = 0;             // segundos transcurridos
+  let totalSeconds = 300;      // duración configurada
+
+  // ── ELEMENTOS ────────────────────────────────────────
+  const display       = document.getElementById('display');
+  const statusEl      = document.getElementById('status');
+  const progressBar   = document.getElementById('progress-bar');
+  const btnStart      = document.getElementById('btn-startstop');
+  const modeLabel     = document.getElementById('mode-label');
+  const overtimeBanner = document.getElementById('overtime-banner');
+  const messageDisplay = document.getElementById('message-display');
+  const inputMin      = document.getElementById('input-minutes');
+  const inputSec      = document.getElementById('input-seconds');
+
+  // ── FORMATO ──────────────────────────────────────────
+  function fmt(s) {
+    const m = Math.floor(Math.abs(s) / 60);
+    const sec = Math.abs(s) % 60;
+    return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  }
+
+  // ── MODO ─────────────────────────────────────────────
+  function setMode(m) {
+    if (running) return;
+    mode = m;
+    document.getElementById('btn-countdown').classList.toggle('active', m === 'countdown');
+    document.getElementById('btn-countup').classList.toggle('active', m === 'countup');
+    modeLabel.textContent = m === 'countdown' ? 'CUENTA ATRÁS' : 'CUENTA ADELANTE';
+    // Mostrar/ocultar config de tiempo solo en countdown
+    document.getElementById('config').style.opacity = m === 'countdown' ? '1' : '0.3';
+    resetTimer();
+  }
+
+  // ── ACTUALIZAR DISPLAY ───────────────────────────────
+  function updateDisplay() {
+    if (mode === 'countdown') {
+      const remaining = totalSeconds - elapsed;
+
+      // Prefijo negativo cuando se pasa del tiempo
+      if (remaining < 0) {
+        display.textContent = '−' + fmt(Math.abs(remaining));
+      } else {
+        display.textContent = fmt(remaining);
+      }
+
+      // Progreso — se vacía hasta 0 y permanece vacío en negativo
+      const pct = Math.max(0, (remaining / totalSeconds) * 100);
+      progressBar.style.width = pct + '%';
+
+      // Estados visuales sin parpadeo
+      if (remaining < 0) {
+        // Tiempo consumido: color danger fijo, sin animación
+        display.className = 'overtime';
+        progressBar.className = 'overtime';
+        overtimeBanner.classList.add('show');
+        statusEl.textContent = 'tiempo consumido';
+      } else if (remaining <= 60) {
+        display.className = 'danger';
+        progressBar.className = 'danger';
+        overtimeBanner.classList.remove('show');
+      } else if (remaining <= totalSeconds * 0.2) {
+        display.className = 'warning';
+        progressBar.className = 'warning';
+        overtimeBanner.classList.remove('show');
+      } else {
+        display.className = '';
+        progressBar.className = '';
+        overtimeBanner.classList.remove('show');
+      }
+
+    } else {
+      // Cuenta adelante
+      display.textContent = fmt(elapsed);
+      progressBar.style.width = '100%';
+      display.className = '';
+      overtimeBanner.classList.remove('show');
+    }
+  }
+
+  // ── INICIAR / PAUSAR ─────────────────────────────────
+  function toggleTimer() {
+    if (!running) {
+      // Leer config al iniciar desde cero
+      if (mode === 'countdown' && elapsed === 0) {
+        const m = parseInt(inputMin.value) || 0;
+        const s = parseInt(inputSec.value) || 0;
+        totalSeconds = m * 60 + s;
+        if (totalSeconds === 0) totalSeconds = 300;
+      }
+      running = true;
+      btnStart.textContent = 'Reanudar';
+      btnStart.classList.remove('primary');
+      document.getElementById('btn-pause').style.display = 'inline-block';
+      statusEl.textContent = 'en curso';
+      interval = setInterval(() => {
+        elapsed++;
+        updateDisplay();
+      }, 1000);
+    }
+  }
+
+  function pauseTimer() {
+    if (running) {
+      running = false;
+      clearInterval(interval);
+      document.getElementById('btn-pause').style.display = 'none';
+      btnStart.textContent = 'Reanudar';
+      btnStart.classList.add('primary');
+      statusEl.textContent = 'pausado';
+    }
+  }
+
+  // ── +1 MINUTO ─────────────────────────────────────────
+  function addMinute() {
+    if (mode === 'countdown') {
+      totalSeconds += 60;
+      updateDisplay();
+    }
+  }
+
+  // ── −30 SEGUNDOS ──────────────────────────────────────
+  function subtractThirty() {
+    if (mode === 'countdown') {
+      totalSeconds = Math.max(elapsed + 1, totalSeconds - 30);
+      updateDisplay();
+    }
+  }
+
+  // ── RESET ─────────────────────────────────────────────
+  function resetTimer() {
+    clearInterval(interval);
+    running = false;
+    elapsed = 0;
+    overtimeBanner.classList.remove('show');
+    btnStart.textContent = 'Iniciar';
+    btnStart.classList.add('primary');
+    document.getElementById('btn-pause').style.display = 'none';
+    statusEl.textContent = 'listo';
+    display.className = '';
+    progressBar.className = '';
+
+    if (mode === 'countdown') {
+      const m = parseInt(inputMin.value) || 0;
+      const s = parseInt(inputSec.value) || 0;
+      totalSeconds = m * 60 + s || 300;
+      display.textContent = fmt(totalSeconds);
+      progressBar.style.width = '100%';
+    } else {
+      display.textContent = '00:00';
+      progressBar.style.width = '100%';
+    }
+  }
+
+  // ── CONTROL POR URL PARAMS ────────────────────────────
+  // QLab puede controlar el temporizador abriendo URLs:
+  // timer.html?action=start
+  // timer.html?action=pause
+  // timer.html?action=reset
+  // timer.html?action=start&mode=countup
+  // timer.html?action=start&minutes=10&seconds=0
+  function handleURLParams() {
+    const params = new URLSearchParams(window.location.search);
+    const action  = params.get('action');
+    const m       = params.get('minutes');
+    const s       = params.get('seconds');
+    const modeP   = params.get('mode');
+
+    if (modeP) setMode(modeP);
+    if (m) inputMin.value = m;
+    if (s) inputSec.value = s;
+
+    if (action === 'start')          { if (!running) toggleTimer(); }
+    if (action === 'pause')          { if (running)  pauseTimer(); }
+    if (action === 'reset')          resetTimer();
+    if (action === 'addminute')      addMinute();
+    if (action === 'subtractthirty') subtractThirty();
+  }
+
+  // ── MENSAJES AL PONENTE ───────────────────────────────
+  function sendMessage() {
+    const msgInput = document.getElementById('message-input');
+    const text = msgInput.value.trim();
+    if (!text) return;
+    messageDisplay.textContent = text;
+    messageDisplay.classList.add('visible');
+  }
+
+  function clearMessage() {
+    document.getElementById('message-input').value = '';
+    messageDisplay.textContent = '';
+    messageDisplay.classList.remove('visible');
+  }
+
+  // ── TECLADO ───────────────────────────────────────────
+  // ── TECLADO ───────────────────────────────────────────
+  document.getElementById('message-input').addEventListener('keydown', e => {
+    if (e.code === 'Enter') { e.preventDefault(); sendMessage(); }
+    if (e.code === 'Escape') { e.preventDefault(); clearMessage(); }
+    e.stopPropagation(); // evitar que los atajos del timer interfieran al escribir
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); running ? pauseTimer() : toggleTimer(); }
+    if (e.code === 'KeyR')  resetTimer();
+    if (e.code === 'KeyM')  addMinute();
+    if (e.code === 'KeyS')  subtractThirty();
+  });
+
+  // ── INIT ──────────────────────────────────────────────
+  resetTimer();
+  handleURLParams();
+
+  // Actualizar el display en tiempo real al editar minutos/segundos
+  inputMin.addEventListener('input', () => { if (!running) resetTimer(); });
+  inputSec.addEventListener('input', () => { if (!running) resetTimer(); });
+</script>
+</body>
+</html>
