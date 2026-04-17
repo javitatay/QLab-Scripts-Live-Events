@@ -22,12 +22,6 @@ El problema que resuelven es concreto: llega un ponente con un PowerPoint, o el 
 | `CHROME_SHOW.applescript` | Mueve la ventana de Chrome al monitor externo a pantalla completa sin robar el foco a QLab. |
 | `CHROME_HIDE.applescript` | Retira Chrome del monitor externo sin cerrar el navegador. |
 
-### Temporizador
-
-| Archivo | Función |
-|---|---|
-| `timer.html` | Temporizador para monitor del ponente. Cuenta atrás y cuenta adelante, ajuste en directo y mensajes al ponente. |
-
 ---
 
 ## Requisitos
@@ -127,60 +121,6 @@ Durante el show:
 
 ---
 
-## Temporizador — uso
-
-`timer.html` es un temporizador standalone que se abre directamente en cualquier navegador. No necesita instalación ni conexión a internet. Disponible en español e inglés.
-
-Abre el archivo en Safari o Chrome y arrastra la ventana al monitor del ponente. Desde ese momento el operador lo controla desde la propia página.
-
-### Modos
-
-- **Cuenta atrás** — introduce minutos y segundos antes de empezar. Al llegar a cero el contador continúa en negativo para no interrumpir, y aparece un aviso de tiempo consumido en la parte superior.
-- **Cuenta adelante** — arranca desde cero y cuenta el tiempo transcurrido.
-
-### Alertas de tiempo
-
-En el panel derecho se configuran dos umbrales de alerta independientes:
-
-- **Alerta amarilla** — minutos restantes para que el display cambie a amarillo
-- **Alerta roja** — minutos restantes para que el display cambie a rojo
-
-Los valores se pueden cambiar en directo durante el show sin reiniciar el contador.
-
-### Controles en pantalla
-
-| Botón | Función |
-|---|---|
-| Iniciar / Reanudar | Arranca o reanuda el contador |
-| Pausar | Pausa sin perder el tiempo |
-| −30 seg | Resta 30 segundos al tiempo restante |
-| +1 min | Añade 1 minuto al tiempo restante |
-| Reset | Vuelve al estado inicial |
-
-### Mensajes al ponente
-
-Hay una caja de texto en la parte inferior. El operador escribe el mensaje y pulsa `Enter` — el texto aparece en pantalla grande en amarillo para que el ponente lo vea desde el escenario. `Esc` o el botón *Borrar* lo eliminan. El mensaje permanece visible en modo limpio.
-
-### Modo limpio
-
-El botón de maximizar (esquina inferior derecha) oculta todos los controles y muestra únicamente el contador y la barra de progreso a tamaño máximo. Útil cuando el monitor del ponente está cerca del público. Pulsar de nuevo el botón o la tecla `C` vuelve a la vista completa.
-
-### Idioma
-
-El selector `ES / EN` en la parte superior derecha cambia el idioma de toda la interfaz en tiempo real. También funciona vía URL: `timer.html?lang=en` arranca directamente en inglés.
-
-### Atajos de teclado
-
-| Tecla | Acción |
-|---|---|
-| `Space` | Iniciar / Pausar |
-| `R` | Reset |
-| `M` | +1 minuto |
-| `S` | −30 segundos |
-| `C` | Modo limpio / vista completa |
-
----
-
 ## Lo que estos scripts no hacen
 
 No hacen mirroring en tiempo real de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas una solución de red como NDI o Syphon. Estos scripts funcionan cuando PowerPoint y Chrome corren en el mismo Mac que QLab.
@@ -201,8 +141,7 @@ QLab-Scripts-Live-Events/
 ├── PPT_SHOW.applescript
 ├── PPT_CLOSE.applescript
 ├── CHROME_SHOW.applescript
-├── CHROME_HIDE.applescript
-└── timer.html
+└── CHROME_HIDE.applescript
 ```
 
 ---
