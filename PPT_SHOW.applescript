@@ -1,24 +1,37 @@
 -- PPT_SHOW
--- Abre un .pptx en pantalla completa en el monitor de salida.
+-- Abre un .pptx en modo presentación en el monitor externo.
+-- QLab permanece operativo en el monitor principal.
 -- El ponente avanza con su clicker directamente.
 --
 -- Requisitos:
 --   · Microsoft PowerPoint para Mac (Microsoft 365)
 --   · En PowerPoint → Presentación → Configurar presentación:
---     selecciona el monitor del proyector antes del show
+--     selecciona el monitor externo antes del show y guarda el archivo
+--   · Permiso de Accesibilidad en
+--     Sistema → Privacidad y Seguridad → Accesibilidad
 --
 -- *** EDITA LA RUTA AL ARCHIVO AQUÍ ***
 property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_PRESENTACION.pptx"
 
-tell application "Microsoft PowerPoint"
-    activate
-    open POSIX file rutaArchivo
-    repeat until document window 1 exists
-        delay 0.3
-    end repeat
-    delay 0.5
-    -- Modo pantalla completa (1 = speaker / fullscreen)
-    set show type of slide show settings of active presentation to 1
-    set loop until stopped of slide show settings of active presentation to false
-    run slide show slide show settings of active presentation
+-- Paso 1: abrir el archivo sin robar el foco a QLab
+do shell script "open -g -a 'Microsoft PowerPoint' " & quoted form of rutaArchivo
+
+-- Paso 2: esperar a que el archivo cargue completamente
+-- Si la presentación es pesada, aumenta este valor
+delay 3
+
+-- Paso 3: activar PowerPoint brevemente para enviar el atajo
+tell application "Microsoft PowerPoint" to activate
+delay 0.5
+
+-- Paso 4: Shift+Cmd+Return lanza el slideshow siguiendo
+-- la configuración de Presenter View y el monitor asignado
+tell application "System Events"
+    tell process "Microsoft PowerPoint"
+        keystroke return using {shift down, command down}
+    end tell
 end tell
+
+-- Paso 5: devolver el foco a QLab
+delay 0.5
+tell application id "com.figure53.QLab.5" to activate

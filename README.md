@@ -12,15 +12,15 @@ El problema que resuelven es concreto: llega un ponente con un PowerPoint, o el 
 
 | Archivo | Función |
 |---|---|
-| `powerpoint/PPT_SHOW.applescript` | Abre un `.pptx` en pantalla completa. El ponente avanza con su clicker. |
-| `powerpoint/PPT_CLOSE.applescript` | Cierra la presentación al terminar. |
+| `powerpoint/PPT_SHOW.applescript` | Abre un `.pptx` en el monitor externo. El ponente avanza con su clicker. QLab permanece operativo en el monitor principal. |
+| `powerpoint/PPT_CLOSE.applescript` | Detiene la presentación y cierra el archivo al terminar. |
 
 ### Chrome
 
 | Archivo | Función |
 |---|---|
-| `chrome/CHROME_SHOW.applescript` | Trae Chrome al frente y activa pantalla completa. |
-| `chrome/CHROME_HIDE.applescript` | Sale de pantalla completa. |
+| `chrome/CHROME_SHOW.applescript` | Mueve la ventana de Chrome al monitor externo a pantalla completa sin robar el foco a QLab. |
+| `chrome/CHROME_HIDE.applescript` | Retira Chrome del monitor externo sin cerrar el navegador. |
 
 ---
 
@@ -30,7 +30,8 @@ El problema que resuelven es concreto: llega un ponente con un PowerPoint, o el 
 - macOS Ventura 13 o superior
 - Microsoft PowerPoint para Mac (Microsoft 365)
 - Google Chrome
-- Permiso de Accesibilidad para Script Editor: *Sistema → Privacidad y Seguridad → Accesibilidad*
+- Monitores en modo **extendido** — no duplicado
+- Permiso de Accesibilidad para QLab en *Sistema → Privacidad y Seguridad → Accesibilidad*
 
 ---
 
@@ -59,7 +60,6 @@ Haz clic dentro del campo de texto de la pestaña Script y pega con `Cmd+V`.
 Busca las líneas que contienen `*** EDITA` — son las únicas que tienes que tocar. Por ejemplo, en `PPT_SHOW` hay que cambiar la ruta del archivo:
 
 ```applescript
--- Cambia esta línea con la ruta real de tu archivo:
 property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_PRESENTACION.pptx"
 ```
 
@@ -75,38 +75,48 @@ En la pestaña **Basics** del inspector puedes darle un nombre descriptivo al cu
 
 ### 8. Pruébalo
 
-Selecciona el cue y pulsa `Space` para ejecutarlo. Si es la primera vez que QLab o Script Editor controlan otra aplicación en este Mac, macOS puede pedir permiso de Accesibilidad. Ve a *Sistema → Privacidad y Seguridad → Accesibilidad* y actívalo para QLab.
+Selecciona el cue y pulsa `Space` para ejecutarlo. Si es la primera vez que QLab controla otra aplicación en este Mac, macOS puede pedir permiso de Accesibilidad. Ve a *Sistema → Privacidad y Seguridad → Accesibilidad* y actívalo para QLab.
 
 ---
 
 ## PowerPoint — setup antes del show
 
-1. Abre PowerPoint y ve a *Presentación → Configurar presentación*
-2. En **Monitor**, selecciona el monitor del proyector
-3. PowerPoint guarda esa configuración dentro del archivo
+1. Abre el `.pptx` en PowerPoint
+2. Ve a *Presentación → Configurar presentación*
+3. En **Monitor**, selecciona el monitor externo
+4. Guarda el archivo — PowerPoint recuerda esa configuración
+5. Edita `rutaArchivo` en `PPT_SHOW` con la ruta completa al `.pptx`
 
 Durante el show:
 ```
-[Script Cue]  PPT_SHOW     → presentación en pantalla completa
+[Script Cue]  PPT_SHOW     → presentación en el monitor externo
               (ponente avanza con su clicker)
 [Script Cue]  PPT_CLOSE    → cierra al terminar
 ```
 
-Edita `rutaArchivo` en `PPT_SHOW` con la ruta completa al `.pptx`.
+Si la presentación tarda en cargar, aumenta el `delay 3` del script a `4` o `5`.
 
 ---
 
 ## Chrome — setup antes del show
 
 1. Abre Chrome y navega a la URL deseada
-2. Arrastra la ventana de Chrome al monitor del proyector
-3. Chrome recuerda la posición entre ejecuciones
+2. Edita las propiedades de `CHROME_SHOW` con las coordenadas de tu monitor externo:
+
+```applescript
+property origen_x : 1920  -- ancho del monitor principal
+property origen_y : 0
+property ancho : 1920     -- resolución del monitor externo
+property alto : 1080
+```
+
+Para saber el ancho de tu monitor principal: *Preferencias del Sistema → Pantallas → Resolución*.
 
 Durante el show:
 ```
-[Script Cue]  CHROME_SHOW  → Chrome a pantalla completa
+[Script Cue]  CHROME_SHOW  → Chrome ocupa el monitor externo
               (ponente navega con normalidad)
-[Script Cue]  CHROME_HIDE  → sale de pantalla completa
+[Script Cue]  CHROME_HIDE  → Chrome desaparece del monitor externo
 ```
 
 ---
@@ -126,6 +136,9 @@ qlab-live-scripts/
 ├── LICENSE
 ├── CONTRIBUTING.md
 │
+├── qlab/
+│   └── QLab_Live_Scripts.qlab
+│
 ├── powerpoint/
 │   ├── PPT_SHOW.applescript
 │   └── PPT_CLOSE.applescript
@@ -139,7 +152,7 @@ qlab-live-scripts/
 
 ## Sesión de QLab lista para usar
 
-Próximamente estará disponible en este repositorio una sesión `.qlab` con todos los scripts ya integrados y listos para disparar. Solo habrá que abrirla, editar las rutas y empezar a trabajar — sin necesidad de crear cues ni pegar código manualmente.
+En la carpeta `qlab/` del repositorio encontrarás una sesión `.qlab` con todos los scripts ya integrados, nombrados y listos para disparar. Solo hay que abrirla, editar las rutas y empezar a trabajar — sin necesidad de crear cues ni pegar código manualmente.
 
 ---
 
