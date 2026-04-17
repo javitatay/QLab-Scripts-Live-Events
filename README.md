@@ -12,15 +12,15 @@ El problema que resuelven es concreto: llega un ponente con un PowerPoint, o el 
 
 | Archivo | Función |
 |---|---|
-| `powerpoint/PPT_SHOW.applescript` | Abre un `.pptx` en el monitor externo. El ponente avanza con su clicker. QLab permanece operativo en el monitor principal. |
-| `powerpoint/PPT_CLOSE.applescript` | Detiene la presentación y cierra el archivo al terminar. |
+| `PPT_SHOW.applescript` | Abre un `.pptx` en el monitor externo. El ponente avanza con su clicker. QLab permanece operativo en el monitor principal. |
+| `PPT_CLOSE.applescript` | Detiene la presentación y cierra el archivo al terminar. |
 
 ### Chrome
 
 | Archivo | Función |
 |---|---|
-| `chrome/CHROME_SHOW.applescript` | Mueve la ventana de Chrome al monitor externo a pantalla completa sin robar el foco a QLab. |
-| `chrome/CHROME_HIDE.applescript` | Retira Chrome del monitor externo sin cerrar el navegador. |
+| `CHROME_SHOW.applescript` | Mueve la ventana de Chrome al monitor externo a pantalla completa sin robar el foco a QLab. |
+| `CHROME_HIDE.applescript` | Retira Chrome del monitor externo sin cerrar el navegador. |
 
 ---
 
@@ -85,7 +85,7 @@ Selecciona el cue y pulsa `Space` para ejecutarlo. Si es la primera vez que QLab
 2. Ve a *Presentación → Configurar presentación*
 3. En **Monitor**, selecciona el monitor externo
 4. Guarda el archivo — PowerPoint recuerda esa configuración
-5. Edita `rutaArchivo` en `PPT_SHOW` con la ruta completa al `.pptx`
+5. Edita `rutaArchivo` en `PPT_SHOW.applescript` con la ruta completa al `.pptx`
 
 Durante el show:
 ```
@@ -101,7 +101,7 @@ Si la presentación tarda en cargar, aumenta el `delay 3` del script a `4` o `5`
 ## Chrome — setup antes del show
 
 1. Abre Chrome y navega a la URL deseada
-2. Edita las propiedades de `CHROME_SHOW` con las coordenadas de tu monitor externo:
+2. Edita las propiedades de `CHROME_SHOW.applescript` con las coordenadas de tu monitor externo:
 
 ```applescript
 property origen_x : 1920  -- ancho del monitor principal
@@ -130,29 +130,25 @@ No hacen mirroring en tiempo real de la pantalla de otro Mac. Si el ponente trae
 ## Estructura del repositorio
 
 ```
-qlab-live-scripts/
+QLab-Scripts-Live-Events/
 │
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md
 │
-├── qlab/
-│   └── QLab_Live_Scripts.qlab
+├── QLab-Scripts-Live-Events.qlab5
 │
-├── powerpoint/
-│   ├── PPT_SHOW.applescript
-│   └── PPT_CLOSE.applescript
-│
-└── chrome/
-    ├── CHROME_SHOW.applescript
-    └── CHROME_HIDE.applescript
+├── PPT_SHOW.applescript
+├── PPT_CLOSE.applescript
+├── CHROME_SHOW.applescript
+└── CHROME_HIDE.applescript
 ```
 
 ---
 
 ## Sesión de QLab lista para usar
 
-En la carpeta `qlab/` del repositorio encontrarás una sesión `.qlab` con todos los scripts ya integrados, nombrados y listos para disparar. Solo hay que abrirla, editar las rutas y empezar a trabajar — sin necesidad de crear cues ni pegar código manualmente.
+En la raíz del repositorio encontrarás `QLab-Scripts-Live-Events.qlab5` con todos los scripts ya integrados, nombrados y listos para disparar. Solo hay que abrirla, editar las rutas y empezar a trabajar — sin necesidad de crear cues ni pegar código manualmente.
 
 ---
 
