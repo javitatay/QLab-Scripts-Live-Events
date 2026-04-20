@@ -2,6 +2,8 @@
 
 AppleScript cues para controlar PowerPoint, Chrome y Zoom desde QLab 5, sin salir del show.
 
+🌐 **[javitatay.github.io/QLab-Scripts-Live-Events](https://javitatay.github.io/QLab-Scripts-Live-Events/)**
+
 El problema es concreto: llega un ponente con un PowerPoint, el show necesita mostrar una web, o hay una videollamada de Zoom activa que tienes que gestionar desde la cuelist. QLab no hace eso solo. Estos scripts sí.
 
 Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ninguno roba el control de tu Mac en medio del show.
