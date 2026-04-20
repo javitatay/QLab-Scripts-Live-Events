@@ -33,6 +33,13 @@ Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ning
 | `ZOOM_SHOW.applescript` | Lleva la ventana de Zoom al monitor externo a pantalla completa. QLab no pierde el foco. |
 | `ZOOM_HIDE.applescript` | Devuelve Zoom al monitor principal sin cerrar la llamada. |
 
+### PDF / Preview
+
+| Archivo | Qué hace |
+|---|---|
+| `PDF_SHOW.applescript` | Abre un PDF en el monitor externo a pantalla completa con Vista Presentación de Preview. QLab no pierde el foco. |
+| `PDF_CLOSE.applescript` | Cierra el documento en Preview sin guardar cambios. |
+
 ---
 
 ## Requisitos
@@ -41,6 +48,7 @@ Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ning
 - macOS Ventura 13 o superior (probado en Sonoma 14)
 - Microsoft PowerPoint para Mac (Microsoft 365)
 - Google Chrome 124 o superior
+- Preview (incluido en macOS)
 - Monitores en modo **extendido** — no duplicado
 - Permiso de Accesibilidad para QLab en *Sistema → Privacidad y Seguridad → Accesibilidad*
 
@@ -135,6 +143,27 @@ Durante el show:
 
 ---
 
+## Setup de PDF antes del show
+
+1. Edita las propiedades de `PDF_SHOW.applescript` con la ruta al archivo y las coordenadas del monitor externo:
+
+```applescript
+property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_DOCUMENTO.pdf"
+property origen_x : 1920
+property origen_y : 0
+property ancho    : 1920
+property alto     : 1080
+```
+
+Durante el show:
+
+```
+[Script Cue]  PDF_SHOW   →  PDF en el monitor externo a pantalla completa
+[Script Cue]  PDF_CLOSE  →  cierra Preview al terminar
+```
+
+---
+
 ## Lo que estos scripts no hacen
 
 No hacen mirroring de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas NDI, Syphon o una solución similar. Estos scripts funcionan cuando PowerPoint, Chrome y Zoom corren en el mismo Mac que QLab.
@@ -161,7 +190,9 @@ QLab-Scripts-Live-Events/
 ├── CHROME_SHOW.applescript
 ├── CHROME_HIDE.applescript
 ├── ZOOM_SHOW.applescript
-└── ZOOM_HIDE.applescript
+├── ZOOM_HIDE.applescript
+├── PDF_SHOW.applescript
+└── PDF_CLOSE.applescript
 ```
 
 ---

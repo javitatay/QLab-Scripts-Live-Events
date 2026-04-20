@@ -30,6 +30,8 @@
   --accent-hi: #e0d1c8;
   --dot-ppt:   #456882;
   --dot-chr:   #D2C1B6;
+  --dot-zoom:  #6a9ab0;
+  --dot-pdf:   #8aaa88;
   --code-bg:   #0e1620;
   --code-text: #c8d8e8;
   --code-comment: #4a6a82;
@@ -50,6 +52,8 @@
   --accent-hi: #1B3C53;
   --dot-ppt:   #456882;
   --dot-chr:   #234C6A;
+  --dot-zoom:  #456882;
+  --dot-pdf:   #5a7a58;
   --code-bg:   #1B3C53;
   --code-text: #d8e8f0;
   --code-comment: #7a9ab2;
@@ -143,7 +147,7 @@ section { padding: 48px 0; border-bottom: 1px solid var(--border); animation: fa
 /* App groups */
 .scripts-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
   gap: 10px;
 }
 @media (max-width: 820px) {
@@ -162,9 +166,11 @@ section { padding: 48px 0; border-bottom: 1px solid var(--border); animation: fa
   background: var(--surface-2);
   border-bottom: 1px solid var(--border);
 }
-.app-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-.app-dot.ppt { background: var(--dot-ppt); }
-.app-dot.chr { background: var(--dot-chr); }
+.app-icon { width: 28px; height: 28px; flex-shrink: 0; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.app-icon.ppt  { background: #C0382B; }
+.app-icon.chr  { background: #1a73e8; }
+.app-icon.zoom { background: #0B5CFF; }
+.app-icon.pdf  { background: #E34234; }
 .app-name { font-size: 13px; font-weight: 600; color: var(--text); }
 .app-meta { margin-left: auto; font-size: 11px; color: var(--text-2); }
 
@@ -267,24 +273,6 @@ pre {
   .dl-actions { flex-direction: row; flex-wrap: wrap; }
 }
 
-/* Requirements */
-.req-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 8px;
-}
-.req-item {
-  display: flex; align-items: flex-start; gap: 9px;
-  padding: 13px 15px;
-  border: 1px solid var(--border); border-radius: 6px;
-  background: var(--surface);
-  font-size: 13px; font-weight: 500; color: var(--text);
-  transition: border-color .15s;
-}
-.req-item:hover { border-color: var(--border-hi); }
-.req-item small { display: block; font-size: 11px; font-weight: 400; color: var(--text-2); margin-top: 2px; }
-.req-check { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
-
 /* Footer */
 footer {
   padding: 28px 0;
@@ -324,7 +312,7 @@ footer {
     <div class="eyebrow">QLab 5 · macOS · AppleScript</div>
     <h1>QLab +<br><em>aplicaciones externas</em></h1>
     <p class="tagline">
-      PowerPoint y Chrome, dentro de tu cuelist.
+      PowerPoint, Chrome, Zoom y PDF, dentro de tu cuelist.
       Sin cambiar de aplicación, sin perder el foco del show.
     </p>
     <div class="header-actions">
@@ -344,7 +332,14 @@ footer {
       <!-- PowerPoint -->
       <div class="app-group">
         <div class="app-header">
-          <div class="app-dot ppt"></div>
+          <div class="app-icon ppt">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="3" width="9" height="10" rx="1" fill="white" opacity="0.25"/>
+              <rect x="3" y="1" width="9" height="10" rx="1" fill="white" opacity="0.4"/>
+              <rect x="5" y="3" width="9" height="10" rx="1.2" fill="white" opacity="0.9"/>
+              <text x="6.5" y="11" font-family="Arial" font-weight="700" font-size="7" fill="#C0382B">P</text>
+            </svg>
+          </div>
           <span class="app-name">PowerPoint</span>
           <span class="app-meta">Microsoft 365 · Mac</span>
         </div>
@@ -442,7 +437,18 @@ footer {
       <!-- Chrome -->
       <div class="app-group">
         <div class="app-header">
-          <div class="app-dot chr"></div>
+          <div class="app-icon chr">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="3.5" fill="white"/>
+              <circle cx="8" cy="8" r="2" fill="#1a73e8"/>
+              <path d="M8 4.5 L13.5 8" stroke="#EA4335" stroke-width="3" stroke-linecap="round"/>
+              <path d="M13.5 8 L8 11.5" stroke="#FBBC05" stroke-width="3" stroke-linecap="round"/>
+              <path d="M8 11.5 L2.5 8" stroke="#34A853" stroke-width="3" stroke-linecap="round"/>
+              <path d="M2.5 8 L8 4.5" stroke="#EA4335" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="8" cy="8" r="2.5" fill="white"/>
+              <circle cx="8" cy="8" r="1.6" fill="#1a73e8"/>
+            </svg>
+          </div>
           <span class="app-name">Google Chrome</span>
           <span class="app-meta">Chrome 124+</span>
         </div>
@@ -523,16 +529,195 @@ footer {
         </div>
 
       </div>
+
+      <!-- Zoom -->
+      <div class="app-group">
+        <div class="app-header">
+          <div class="app-icon zoom">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1.5" y="4.5" width="8.5" height="7" rx="1.5" fill="white" opacity="0.9"/>
+              <path d="M10 7.2 L14.5 5 L14.5 11 L10 8.8 Z" fill="white" opacity="0.9"/>
+            </svg>
+          </div>
+          <span class="app-name">Zoom</span>
+          <span class="app-meta">zoom.us</span>
+        </div>
+
+        <div class="script-item" id="item-zoom-show">
+          <button class="script-trigger" onclick="toggle('item-zoom-show')">
+            <div class="script-trigger-text">
+              <div class="script-name">ZOOM_SHOW.applescript</div>
+              <div class="script-desc">Lleva la ventana de Zoom al monitor externo a pantalla completa. QLab no pierde el foco.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-zoom-show', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-zoom-show"><span class="c">-- ZOOM_SHOW
+-- Mueve la ventana de Zoom al monitor externo y la expande
+-- a pantalla completa sin robar el foco a QLab.
+--
+-- Requisitos:
+--   · Zoom abierto y en llamada activa
+--   · Permiso de Accesibilidad en
+--     Sistema → Privacidad y Seguridad → Accesibilidad
+--
+-- *** EDITA LAS COORDENADAS DE TU MONITOR EXTERNO ***</span>
+<span class="k">property</span> origen_x : 1920
+<span class="k">property</span> origen_y : 0
+<span class="k">property</span> ancho : 1920
+<span class="k">property</span> alto : 1080
+
+<span class="k">tell application</span> <span class="s">"System Events"</span>
+    <span class="k">tell process</span> <span class="s">"zoom.us"</span>
+        <span class="k">set position of window</span> 1 <span class="k">to</span> <span class="p">{</span>origen_x, origen_y<span class="p">}</span>
+        <span class="k">set size of window</span> 1 <span class="k">to</span> <span class="p">{</span>ancho, alto<span class="p">}</span>
+    <span class="k">end tell</span>
+<span class="k">end tell</span></pre>
+          </div>
+        </div>
+
+        <div class="script-item" id="item-zoom-hide">
+          <button class="script-trigger" onclick="toggle('item-zoom-hide')">
+            <div class="script-trigger-text">
+              <div class="script-name">ZOOM_HIDE.applescript</div>
+              <div class="script-desc">Devuelve Zoom al monitor principal sin cerrar la llamada.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-zoom-hide', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-zoom-hide"><span class="c">-- ZOOM_HIDE
+-- Retira Zoom del monitor externo sin cerrar la llamada.
+-- La ventana queda aparcada en el monitor principal detrás de QLab.
+-- Al volver a ejecutar ZOOM_SHOW regresa al monitor externo.</span>
+
+<span class="k">tell application</span> <span class="s">"System Events"</span>
+    <span class="k">tell process</span> <span class="s">"zoom.us"</span>
+        <span class="k">set position of window</span> 1 <span class="k">to</span> <span class="p">{</span>0, 0<span class="p">}</span>
+        <span class="k">set size of window</span> 1 <span class="k">to</span> <span class="p">{</span>800, 600<span class="p">}</span>
+    <span class="k">end tell</span>
+<span class="k">end tell</span>
+
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span></pre>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PDF / Preview -->
+      <div class="app-group">
+        <div class="app-header">
+          <div class="app-icon pdf">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="1" width="9" height="12" rx="1.2" fill="white" opacity="0.85"/>
+              <path d="M9 1 L9 4.5 L12.5 4.5" stroke="white" stroke-width="1" opacity="0.5" fill="none"/>
+              <path d="M9 1 L12.5 4.5 L12.5 13 L2 13 L2 1 Z" fill="none"/>
+              <rect x="4" y="6.5" width="5.5" height="1" rx="0.5" fill="#E34234"/>
+              <rect x="4" y="8.5" width="4" height="1" rx="0.5" fill="#E34234"/>
+              <rect x="4" y="10.5" width="5" height="1" rx="0.5" fill="#E34234"/>
+            </svg>
+          </div>
+          <span class="app-name">PDF / Preview</span>
+          <span class="app-meta">macOS Preview</span>
+        </div>
+
+        <div class="script-item" id="item-pdf-show">
+          <button class="script-trigger" onclick="toggle('item-pdf-show')">
+            <div class="script-trigger-text">
+              <div class="script-name">PDF_SHOW.applescript</div>
+              <div class="script-desc">Abre un PDF en el monitor externo a pantalla completa. QLab no pierde el foco.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-pdf-show', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-pdf-show"><span class="c">-- PDF_SHOW
+-- Abre un PDF en el monitor externo a pantalla completa.
+-- QLab permanece operativo en el monitor principal.
+--
+-- Requisitos:
+--   · Permiso de Accesibilidad en
+--     Sistema → Privacidad y Seguridad → Accesibilidad
+--
+-- *** EDITA LA RUTA AL ARCHIVO Y LAS COORDENADAS AQUÍ ***</span>
+<span class="k">property</span> rutaArchivo : <span class="s">"/Users/TU_USUARIO/Desktop/NOMBRE_DOCUMENTO.pdf"</span>
+<span class="k">property</span> origen_x : 1920
+<span class="k">property</span> origen_y : 0
+<span class="k">property</span> ancho : 1920
+<span class="k">property</span> alto : 1080
+
+<span class="k">do shell script</span> <span class="s">"open -g -a 'Preview' "</span> &amp; <span class="k">quoted form of</span> rutaArchivo
+<span class="k">delay</span> 1.5
+
+<span class="k">tell application</span> <span class="s">"System Events"</span>
+    <span class="k">tell process</span> <span class="s">"Preview"</span>
+        <span class="k">set position of window</span> 1 <span class="k">to</span> <span class="p">{</span>origen_x, origen_y<span class="p">}</span>
+        <span class="k">set size of window</span> 1 <span class="k">to</span> <span class="p">{</span>ancho, alto<span class="p">}</span>
+    <span class="k">end tell</span>
+<span class="k">end tell</span>
+
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span></pre>
+          </div>
+        </div>
+
+        <div class="script-item" id="item-pdf-close">
+          <button class="script-trigger" onclick="toggle('item-pdf-close')">
+            <div class="script-trigger-text">
+              <div class="script-name">PDF_CLOSE.applescript</div>
+              <div class="script-desc">Cierra el documento en Preview sin guardar cambios.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-pdf-close', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-pdf-close"><span class="c">-- PDF_CLOSE
+-- Cierra el documento activo en Preview sin guardar.
+-- Usar al terminar la presentación del PDF.</span>
+
+<span class="k">tell application</span> <span class="s">"Preview"</span>
+    <span class="k">try</span>
+        <span class="k">close</span> <span class="k">front document</span> <span class="k">saving</span> <span class="k">no</span>
+    <span class="k">on error</span>
+        <span class="c">-- Si ya estaba cerrado, no hacer nada</span>
+    <span class="k">end try</span>
+<span class="k">end tell</span></pre>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
-
-  <!-- Descarga -->
   <section id="descarga">
     <div class="section-label">Sesión de QLab</div>
     <div class="download-card">
       <div class="dl-text">
         <div class="dl-title">QLab-Scripts-Live-Events.qlab5</div>
-        <div class="dl-desc">Los cuatro scripts ya pegados en QLab, con nombre y orden. Abre, edita las rutas y ya está.</div>
+        <div class="dl-desc">Los ocho scripts ya pegados en QLab, con nombre y orden. Abre, edita las rutas y ya está.</div>
       </div>
       <div class="dl-actions">
         <a href="https://github.com/javitatay/QLab-Scripts-Live-Events/raw/main/QLab-Scripts-Live-Events.qlab5" class="btn btn-primary">
@@ -547,44 +732,13 @@ footer {
     </div>
   </section>
 
-  <!-- Requisitos -->
-  <section>
-    <div class="section-label">Requisitos</div>
-    <div class="req-grid">
-      <div class="req-item">
-        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <div>QLab 5<small>Cualquier licencia activa</small></div>
-      </div>
-      <div class="req-item">
-        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <div>macOS Ventura 13+<small>Probado en Sonoma 14</small></div>
-      </div>
-      <div class="req-item">
-        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <div>Microsoft 365<small>PowerPoint para Mac</small></div>
-      </div>
-      <div class="req-item">
-        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <div>Google Chrome 124+<small>Para los scripts de Chrome</small></div>
-      </div>
-      <div class="req-item">
-        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <div>Monitores extendidos<small>No duplicado</small></div>
-      </div>
-      <div class="req-item">
-        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        <div>Permiso de Accesibilidad<small>Sistema → Privacidad</small></div>
-      </div>
-    </div>
-  </section>
-
   <!-- Footer -->
   <footer>
     <div class="footer-l">
       <a href="https://github.com/javitatay" target="_blank">Javier Tatay Rubio</a>
       &nbsp;·&nbsp; MIT License
     </div>
-    <div class="footer-r">QLab 5 · macOS Sonoma 14 · Microsoft 365 · Chrome 124+</div>
+    <div class="footer-r">QLab 5 · macOS Sonoma 14 · Microsoft 365 · Chrome 124+ · Zoom · Preview</div>
   </footer>
 
 </div>
