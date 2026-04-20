@@ -1,129 +1,147 @@
 # QLab Live Scripts
 
-Scripts de AppleScript para integrar aplicaciones externas en shows en vivo desde QLab 5.
+AppleScript cues para controlar PowerPoint, Chrome y Zoom desde QLab 5, sin salir del show.
 
-El problema que resuelven es concreto: llega un ponente con un PowerPoint, o el show necesita mostrar una web en tiempo real, y QLab tiene que gestionar eso igual que gestiona el audio y el vídeo. Estos scripts hacen exactamente eso — nada más.
+El problema es concreto: llega un ponente con un PowerPoint, el show necesita mostrar una web, o hay una videollamada de Zoom activa que tienes que gestionar desde la cuelist. QLab no hace eso solo. Estos scripts sí.
+
+Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ninguno roba el control de tu Mac en medio del show.
 
 ---
 
-## Scripts disponibles
+## Scripts
 
 ### PowerPoint
 
-| Archivo | Función |
+| Archivo | Qué hace |
 |---|---|
-| `PPT_SHOW.applescript` | Abre un `.pptx` en el monitor externo. El ponente avanza con su clicker. QLab permanece operativo en el monitor principal. |
-| `PPT_CLOSE.applescript` | Detiene la presentación y cierra el archivo al terminar. |
+| `PPT_SHOW.applescript` | Abre el `.pptx` en el monitor externo y lanza el slideshow. El ponente avanza con su clicker. QLab sigue activo en el principal. |
+| `PPT_CLOSE.applescript` | Para el slideshow y cierra el archivo sin guardar. |
 
 ### Chrome
 
-| Archivo | Función |
+| Archivo | Qué hace |
 |---|---|
-| `CHROME_SHOW.applescript` | Mueve la ventana de Chrome al monitor externo a pantalla completa sin robar el foco a QLab. |
-| `CHROME_HIDE.applescript` | Retira Chrome del monitor externo sin cerrar el navegador. |
+| `CHROME_SHOW.applescript` | Lleva la ventana de Chrome al monitor externo a pantalla completa. QLab no pierde el foco. |
+| `CHROME_HIDE.applescript` | Devuelve Chrome al monitor principal sin cerrar el navegador. La página sigue cargada. |
+
+### Zoom
+
+| Archivo | Qué hace |
+|---|---|
+| `ZOOM_SHOW.applescript` | Lleva la ventana de Zoom al monitor externo a pantalla completa. QLab no pierde el foco. |
+| `ZOOM_HIDE.applescript` | Devuelve Zoom al monitor principal sin cerrar la llamada. |
 
 ---
 
 ## Requisitos
 
 - QLab 5 con cualquier licencia activa
-- macOS Ventura 13 o superior
+- macOS Ventura 13 o superior (probado en Sonoma 14)
 - Microsoft PowerPoint para Mac (Microsoft 365)
-- Google Chrome
+- Google Chrome 124 o superior
 - Monitores en modo **extendido** — no duplicado
 - Permiso de Accesibilidad para QLab en *Sistema → Privacidad y Seguridad → Accesibilidad*
 
 ---
 
-## Cómo crear un Script Cue en QLab
+## Cómo añadir un script a QLab
 
-Si nunca has usado un Script Cue en QLab, sigue estos pasos. Son el mismo proceso para todos los scripts de este repositorio.
+El proceso es el mismo para todos los scripts.
 
-### 1. Crea el Script Cue
+**1. Crea el Script Cue**
 
-En la cuelista de QLab, pulsa `Cmd+2` o ve al menú *Cue → New Script Cue*. Aparece un nuevo cue con el icono de script (una `S` entre corchetes).
+En la cuelist de QLab, pulsa `Cmd+2` o ve a *Cue → New Script Cue*.
 
-### 2. Abre el inspector
+**2. Abre la pestaña Script**
 
-Con el cue seleccionado, mira el panel inferior de QLab. Verás varias pestañas. Haz clic en la que pone **Script**.
+Con el cue seleccionado, haz clic en la pestaña **Script** del panel inferior.
 
-### 3. Copia el script desde GitHub
+**3. Copia y pega el código**
 
-Abre el archivo `.applescript` que quieres usar. En GitHub hay un botón de copia en la esquina superior derecha del bloque de código. Pulsa para copiar todo el contenido.
+Abre el `.applescript` en GitHub, copia el contenido y pégalo en QLab con `Cmd+V`. También puedes copiar directamente desde [la web del proyecto](https://javiertatay.github.io/QLab-Scripts-Live-Events/) con el botón que aparece en cada script.
 
-### 4. Pega el script en QLab
+**4. Edita lo que necesites**
 
-Haz clic dentro del campo de texto de la pestaña Script y pega con `Cmd+V`.
-
-### 5. Edita lo que necesites
-
-Busca las líneas que contienen `*** EDITA` — son las únicas que tienes que tocar. Por ejemplo, en `PPT_SHOW` hay que cambiar la ruta del archivo:
+Busca las líneas marcadas con `*** EDITA` — son las únicas que tienes que tocar. En `PPT_SHOW`, la ruta al archivo:
 
 ```applescript
 property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_PRESENTACION.pptx"
 ```
 
-Para saber la ruta exacta de un archivo en Mac: arrástralo desde el Finder hasta una ventana de Terminal y la ruta aparece escrita. También puedes hacer clic derecho sobre el archivo, mantener `Option` y elegir *Copiar como nombre de ruta*.
+Para saber la ruta exacta: arrastra el archivo desde el Finder a una ventana de Terminal. O clic derecho sobre el archivo, mantén `Option` y elige *Copiar como nombre de ruta*.
 
-### 6. Compila el script
+**5. Compila**
 
-Pulsa el botón **Compile Script** que aparece encima del campo de texto. Si todo está bien, no pasa nada visible — eso es buena señal. Si hay algún error, QLab lo muestra en rojo junto al botón con una descripción del problema.
+Pulsa **Compile Script**. Si no aparece ningún error en rojo, está listo.
 
-### 7. Ponle nombre al cue
+**6. Ponle nombre al cue**
 
-En la pestaña **Basics** del inspector puedes darle un nombre descriptivo al cue (`PPT_SHOW`, `CHROME_SHOW`, etc.) para reconocerlo fácilmente en la cuelista.
+En la pestaña **Basics** del inspector, dale un nombre descriptivo: `PPT_SHOW`, `CHROME_SHOW`, etc.
 
-### 8. Pruébalo
+**7. Pruébalo**
 
-Selecciona el cue y pulsa `Space` para ejecutarlo. Si es la primera vez que QLab controla otra aplicación en este Mac, macOS puede pedir permiso de Accesibilidad. Ve a *Sistema → Privacidad y Seguridad → Accesibilidad* y actívalo para QLab.
+Selecciona el cue y pulsa `Space`. La primera vez que QLab intenta controlar otra aplicación, macOS pedirá permiso de Accesibilidad — actívalo en *Sistema → Privacidad y Seguridad → Accesibilidad*.
 
 ---
 
-## PowerPoint — setup antes del show
+## Setup de PowerPoint antes del show
 
 1. Abre el `.pptx` en PowerPoint
 2. Ve a *Presentación → Configurar presentación*
 3. En **Monitor**, selecciona el monitor externo
-4. Guarda el archivo — PowerPoint recuerda esa configuración
+4. Guarda — PowerPoint recuerda esa configuración entre sesiones
 5. Edita `rutaArchivo` en `PPT_SHOW.applescript` con la ruta completa al `.pptx`
 
 Durante el show:
+
 ```
-[Script Cue]  PPT_SHOW     → presentación en el monitor externo
-              (ponente avanza con su clicker)
-[Script Cue]  PPT_CLOSE    → cierra al terminar
+[Script Cue]  PPT_SHOW   →  presentación en el monitor externo
+                             (ponente avanza con su clicker)
+[Script Cue]  PPT_CLOSE  →  cierra al terminar
 ```
 
-Si la presentación tarda en cargar, aumenta el `delay 3` del script a `4` o `5`.
+Si la presentación tarda en cargar, sube el `delay 3` a `4` o `5`.
 
 ---
 
-## Chrome — setup antes del show
+## Setup de Chrome antes del show
 
-1. Abre Chrome y navega a la URL deseada
+1. Abre Chrome y navega a la URL que quieres mostrar
 2. Edita las propiedades de `CHROME_SHOW.applescript` con las coordenadas de tu monitor externo:
 
 ```applescript
-property origen_x : 1920  -- ancho del monitor principal
+property origen_x : 1920  -- ancho del monitor principal en píxeles
 property origen_y : 0
-property ancho : 1920     -- resolución del monitor externo
-property alto : 1080
+property ancho    : 1920  -- resolución del monitor externo
+property alto     : 1080
 ```
 
-Para saber el ancho de tu monitor principal: *Preferencias del Sistema → Pantallas → Resolución*.
+Para saber el ancho de tu monitor principal: *Ajustes del Sistema → Pantallas*.
 
 Durante el show:
+
 ```
-[Script Cue]  CHROME_SHOW  → Chrome ocupa el monitor externo
-              (ponente navega con normalidad)
-[Script Cue]  CHROME_HIDE  → Chrome desaparece del monitor externo
+[Script Cue]  CHROME_SHOW  →  Chrome ocupa el monitor externo
+[Script Cue]  CHROME_HIDE  →  Chrome vuelve al principal
 ```
+
+---
+
+## Setup de Zoom antes del show
+
+`ZOOM_SHOW` y `ZOOM_HIDE` funcionan igual que los de Chrome. Edita las mismas propiedades de coordenadas en `ZOOM_SHOW.applescript`. Zoom tiene que estar en llamada activa antes de ejecutar el script.
 
 ---
 
 ## Lo que estos scripts no hacen
 
-No hacen mirroring en tiempo real de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas una solución de red como NDI o Syphon. Estos scripts funcionan cuando PowerPoint y Chrome corren en el mismo Mac que QLab.
+No hacen mirroring de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas NDI, Syphon o una solución similar. Estos scripts funcionan cuando PowerPoint, Chrome y Zoom corren en el mismo Mac que QLab.
+
+---
+
+## Sesión de QLab
+
+En la sección [Releases](../../releases) encontrarás `QLab-Scripts-Live-Events.qlab5` con los cuatro scripts ya integrados, nombrados y ordenados en la cuelist. Descarga, abre, edita las rutas y listo.
 
 ---
 
@@ -136,25 +154,19 @@ QLab-Scripts-Live-Events/
 ├── LICENSE
 ├── CONTRIBUTING.md
 │
-├── QLab-Scripts-Live-Events.qlab5
-│
 ├── PPT_SHOW.applescript
 ├── PPT_CLOSE.applescript
 ├── CHROME_SHOW.applescript
-└── CHROME_HIDE.applescript
+├── CHROME_HIDE.applescript
+├── ZOOM_SHOW.applescript
+└── ZOOM_HIDE.applescript
 ```
-
----
-
-## Sesión de QLab lista para usar
-
-En la raíz del repositorio encontrarás `QLab-Scripts-Live-Events.qlab5` con todos los scripts ya integrados, nombrados y listos para disparar. Solo hay que abrirla, editar las rutas y empezar a trabajar — sin necesidad de crear cues ni pegar código manualmente.
 
 ---
 
 ## Contribuir
 
-Si tienes un script que integra otra aplicación con QLab, las instrucciones están en `CONTRIBUTING.md`.
+Si tienes un script que integra otra aplicación con QLab, las instrucciones están en [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
 
@@ -164,7 +176,4 @@ MIT — libre para uso en producción comercial y no comercial.
 
 ---
 
-## Autor
-
-Javier Tatay Rubio
-*Probado en macOS Sonoma 14 · QLab 5 · Microsoft 365 · Google Chrome 124+*
+*Javier Tatay Rubio · macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+*

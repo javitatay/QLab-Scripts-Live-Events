@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QLab Live Scripts</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B3C53'/><rect x='5' y='5' width='22' height='22' rx='4' fill='%23234C6A'/><polygon points='12,10 12,22 23,16' fill='%23D2C1B6'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy-deep: #1B3C53;
+  --navy-mid:  #234C6A;
+  --slate:     #456882;
+  --sand:      #D2C1B6;
+}
+
+[data-theme="dark"] {
+  --bg:        #111820;
+  --surface:   #192433;
+  --surface-2: #1f2f40;
+  --surface-3: #162030;
+  --border:    #243649;
+  --border-hi: #2e4561;
+  --text:      #e8e2dd;
+  --text-2:    #a09890;
+  --accent:    #D2C1B6;
+  --accent-hi: #e0d1c8;
+  --dot-ppt:   #456882;
+  --dot-chr:   #D2C1B6;
+  --code-bg:   #0e1620;
+  --code-text: #c8d8e8;
+  --code-comment: #4a6a82;
+  --code-keyword: #8aafc8;
+  --code-string:  #a8c8a0;
+}
+
+[data-theme="light"] {
+  --bg:        #f5f2f0;
+  --surface:   #ffffff;
+  --surface-2: #ede9e6;
+  --surface-3: #e6e1dd;
+  --border:    #ddd6d0;
+  --border-hi: #c8bdb6;
+  --text:      #1B3C53;
+  --text-2:    #456882;
+  --accent:    #234C6A;
+  --accent-hi: #1B3C53;
+  --dot-ppt:   #456882;
+  --dot-chr:   #234C6A;
+  --code-bg:   #1B3C53;
+  --code-text: #d8e8f0;
+  --code-comment: #7a9ab2;
+  --code-keyword: #a8c8e0;
+  --code-string:  #a0c890;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background .2s, color .2s;
+}
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+/* Topbar */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.topbar-id { font-size: 13px; font-weight: 500; color: var(--text); }
+.topbar-id span { font-weight: 400; color: var(--text-2); }
+
+.theme-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; color: var(--text-2); cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.theme-btn:hover { border-color: var(--border-hi); color: var(--text); }
+.icon-sun { display: none; }
+.icon-moon { display: block; }
+[data-theme="light"] .icon-sun  { display: block; }
+[data-theme="light"] .icon-moon { display: none; }
+
+/* Header */
+header {
+  padding: 60px 0 52px;
+  border-bottom: 1px solid var(--border);
+  animation: fadeUp .45s ease both;
+}
+.eyebrow {
+  font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-2); margin-bottom: 18px;
+}
+h1 {
+  font-size: clamp(2rem, 5vw, 2.75rem); font-weight: 300;
+  line-height: 1.12; letter-spacing: -.02em;
+  color: var(--text); margin-bottom: 18px;
+}
+h1 em { font-style: normal; color: var(--accent); }
+.tagline {
+  font-size: 14px; color: var(--text-2);
+  max-width: 640px; line-height: 1.75; margin-bottom: 30px;
+}
+.header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 5px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
+  text-decoration: none; cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .15s ease; white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+[data-theme="light"] .btn-primary { color: #fff; }
+.btn-primary:hover { background: var(--accent-hi); border-color: var(--accent-hi); }
+.btn-outline { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-outline:hover { border-color: var(--border-hi); color: var(--text); }
+
+/* Sections */
+section { padding: 48px 0; border-bottom: 1px solid var(--border); animation: fadeUp .45s .05s ease both; }
+.section-label {
+  font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-2); margin-bottom: 24px;
+}
+
+/* App groups */
+.scripts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 820px) {
+  .scripts-grid { grid-template-columns: 1fr; }
+}
+
+.app-group {
+  border: 1px solid var(--border); border-radius: 7px; overflow: hidden;
+  transition: border-color .15s;
+}
+.app-group:hover { border-color: var(--border-hi); }
+
+.app-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 18px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+.app-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.app-dot.ppt { background: var(--dot-ppt); }
+.app-dot.chr { background: var(--dot-chr); }
+.app-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.app-meta { margin-left: auto; font-size: 11px; color: var(--text-2); }
+
+/* Script items — accordion */
+.script-item {
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.script-item:last-child { border-bottom: none; }
+
+.script-trigger {
+  display: flex; align-items: center; gap: 0;
+  width: 100%; padding: 16px 18px;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  text-align: left; color: inherit;
+  transition: background .15s;
+}
+.script-trigger:hover { background: var(--surface-2); }
+
+.script-trigger-text { flex: 1; }
+.script-name {
+  font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 4px;
+}
+.script-desc { font-size: 12px; color: var(--text-2); line-height: 1.6; text-align: left; }
+
+.chevron {
+  flex-shrink: 0; margin-left: 12px;
+  color: var(--text-2);
+  transition: transform .2s ease;
+}
+.script-item.open .chevron { transform: rotate(180deg); }
+
+/* Code panel */
+.code-panel {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+.script-item.open .code-panel { display: block; }
+
+.code-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 18px;
+  background: var(--code-bg);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+[data-theme="light"] .code-header { border-bottom: 1px solid rgba(0,0,0,.08); }
+
+.code-lang {
+  font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--code-comment);
+}
+
+.copy-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border-hi);
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px; font-weight: 500;
+  color: var(--text-2); cursor: pointer;
+  transition: all .15s;
+}
+.copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+.copy-btn.copied { border-color: var(--code-string); color: var(--code-string); }
+
+pre {
+  margin: 0;
+  padding: 18px;
+  background: var(--code-bg);
+  overflow-x: auto;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
+  font-size: 12px; line-height: 1.7;
+  color: var(--code-text);
+}
+
+/* Syntax highlighting */
+.c  { color: var(--code-comment); font-style: italic; } /* comment */
+.k  { color: var(--code-keyword); }                     /* keyword */
+.s  { color: var(--code-string); }                      /* string */
+.p  { color: var(--code-text); opacity: .6; }           /* punctuation */
+
+/* Download */
+.download-card {
+  display: flex; align-items: center; gap: 24px;
+  padding: 24px;
+  border: 1px solid var(--border); border-radius: 7px;
+  background: var(--surface);
+  transition: border-color .15s;
+}
+.download-card:hover { border-color: var(--border-hi); }
+.dl-text { flex: 1; }
+.dl-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.dl-desc  { font-size: 12px; color: var(--text-2); line-height: 1.65; }
+.dl-actions { display: flex; flex-direction: column; gap: 7px; flex-shrink: 0; }
+
+@media (max-width: 560px) {
+  .download-card { flex-direction: column; align-items: flex-start; }
+  .dl-actions { flex-direction: row; flex-wrap: wrap; }
+}
+
+/* Requirements */
+.req-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+.req-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 13px 15px;
+  border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface);
+  font-size: 13px; font-weight: 500; color: var(--text);
+  transition: border-color .15s;
+}
+.req-item:hover { border-color: var(--border-hi); }
+.req-item small { display: block; font-size: 11px; font-weight: 400; color: var(--text-2); margin-top: 2px; }
+.req-check { color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+
+/* Footer */
+footer {
+  padding: 28px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.footer-l { font-size: 12px; color: var(--text-2); }
+.footer-l a {
+  color: var(--text); font-weight: 500; text-decoration: none;
+  border-bottom: 1px solid var(--border); transition: border-color .15s;
+}
+.footer-l a:hover { border-color: var(--border-hi); }
+.footer-r { font-size: 11px; color: var(--text-2); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Topbar -->
+  <nav class="topbar">
+    <div class="topbar-id">QLab Live Scripts <span>/ AppleScript</span></div>
+    <button class="theme-btn" id="themeToggle" aria-label="Cambiar tema">
+      <svg class="icon-moon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg class="icon-sun"  width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <span id="themeLabel">Modo claro</span>
+    </button>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <div class="eyebrow">QLab 5 · macOS · AppleScript</div>
+    <h1>QLab +<br><em>aplicaciones externas</em></h1>
+    <p class="tagline">
+      PowerPoint y Chrome, dentro de tu cuelist.
+      Sin cambiar de aplicación, sin perder el foco del show.
+    </p>
+    <div class="header-actions">
+      <a href="https://github.com/javiertatay/QLab-Scripts-Live-Events" class="btn btn-primary" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.748 0 .268.18.58.688.482A10.019 10.019 0 0022 12c0-5.523-4.477-10-10-10z"/></svg>
+        Ver en GitHub
+      </a>
+      <a href="#descarga" class="btn btn-outline">Descargar sesión .qlab5</a>
+    </div>
+  </header>
+
+  <!-- Scripts -->
+  <section>
+    <div class="section-label">Scripts disponibles</div>
+    <div class="scripts-grid">
+
+      <!-- PowerPoint -->
+      <div class="app-group">
+        <div class="app-header">
+          <div class="app-dot ppt"></div>
+          <span class="app-name">PowerPoint</span>
+          <span class="app-meta">Microsoft 365 · Mac</span>
+        </div>
+
+        <div class="script-item" id="item-ppt-show">
+          <button class="script-trigger" onclick="toggle('item-ppt-show')">
+            <div class="script-trigger-text">
+              <div class="script-name">PPT_SHOW.applescript</div>
+              <div class="script-desc">Abre el .pptx en el monitor externo y lanza el slideshow. QLab sigue activo en el principal.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-ppt-show', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-ppt-show"><span class="c">-- PPT_SHOW
+-- Abre un .pptx en modo presentación en el monitor externo.
+-- QLab permanece operativo en el monitor principal.
+-- El ponente avanza con su clicker directamente.</span>
+<span class="c">--
+-- Requisitos:
+--   · Microsoft PowerPoint para Mac (Microsoft 365)
+--   · En PowerPoint → Presentación → Configurar presentación:
+--     selecciona el monitor externo antes del show y guarda el archivo
+--   · Permiso de Accesibilidad en
+--     Sistema → Privacidad y Seguridad → Accesibilidad
+--
+-- *** EDITA LA RUTA AL ARCHIVO AQUÍ ***</span>
+<span class="k">property</span> rutaArchivo : <span class="s">"/Users/TU_USUARIO/Desktop/NOMBRE_PRESENTACION.pptx"</span>
+
+<span class="c">-- Paso 1: abrir el archivo sin robar el foco a QLab</span>
+<span class="k">do shell script</span> <span class="s">"open -g -a 'Microsoft PowerPoint' "</span> &amp; <span class="k">quoted form of</span> rutaArchivo
+
+<span class="c">-- Paso 2: esperar a que el archivo cargue completamente
+-- Si la presentación es pesada, aumenta este valor</span>
+<span class="k">delay</span> 3
+
+<span class="c">-- Paso 3: activar PowerPoint brevemente para enviar el atajo</span>
+<span class="k">tell application</span> <span class="s">"Microsoft PowerPoint"</span> <span class="k">to activate</span>
+<span class="k">delay</span> 0.5
+
+<span class="c">-- Paso 4: Shift+Cmd+Return lanza el slideshow siguiendo
+-- la configuración de Presenter View y el monitor asignado</span>
+<span class="k">tell application</span> <span class="s">"System Events"</span>
+    <span class="k">tell process</span> <span class="s">"Microsoft PowerPoint"</span>
+        <span class="k">keystroke</span> <span class="k">return</span> <span class="k">using</span> <span class="p">{</span><span class="k">shift down</span>, <span class="k">command down</span><span class="p">}</span>
+    <span class="k">end tell</span>
+<span class="k">end tell</span>
+
+<span class="c">-- Paso 5: devolver el foco a QLab</span>
+<span class="k">delay</span> 0.5
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span></pre>
+          </div>
+        </div>
+
+        <div class="script-item" id="item-ppt-close">
+          <button class="script-trigger" onclick="toggle('item-ppt-close')">
+            <div class="script-trigger-text">
+              <div class="script-name">PPT_CLOSE.applescript</div>
+              <div class="script-desc">Para el slideshow y cierra el archivo sin guardar. Para ejecutar al terminar la ponencia.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-ppt-close', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-ppt-close"><span class="c">-- PPT_CLOSE
+-- Detiene el slideshow y cierra la presentación sin guardar.
+-- Usar al terminar la ponencia.</span>
+
+<span class="k">tell application</span> <span class="s">"Microsoft PowerPoint"</span>
+    <span class="k">try</span>
+        <span class="k">tell</span> (<span class="k">slide show window of</span> <span class="k">active presentation</span>) <span class="k">to</span> <span class="k">stop</span>
+        <span class="k">delay</span> 0.3
+        <span class="k">close</span> <span class="k">active presentation</span> <span class="k">saving</span> <span class="k">no</span>
+    <span class="k">on error</span>
+        <span class="c">-- Si ya estaba cerrado, no hacer nada</span>
+    <span class="k">end try</span>
+<span class="k">end tell</span></pre>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Chrome -->
+      <div class="app-group">
+        <div class="app-header">
+          <div class="app-dot chr"></div>
+          <span class="app-name">Google Chrome</span>
+          <span class="app-meta">Chrome 124+</span>
+        </div>
+
+        <div class="script-item" id="item-chr-show">
+          <button class="script-trigger" onclick="toggle('item-chr-show')">
+            <div class="script-trigger-text">
+              <div class="script-name">CHROME_SHOW.applescript</div>
+              <div class="script-desc">Lleva la ventana de Chrome al monitor externo a pantalla completa. QLab no pierde el foco.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-chr-show', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-chr-show"><span class="c">-- CHROME_SHOW
+-- Mueve la ventana de Chrome al monitor externo y la expande
+-- a pantalla completa sin robar el foco a QLab.
+--
+-- Requisitos:
+--   · Google Chrome abierto en la página deseada
+--   · Permiso de Accesibilidad en
+--     Sistema → Privacidad y Seguridad → Accesibilidad
+--
+-- *** EDITA LAS COORDENADAS DE TU MONITOR EXTERNO ***
+-- origen_x: ancho en píxeles del monitor principal
+-- origen_y: dejar en 0
+-- ancho y alto: resolución del monitor externo</span>
+<span class="k">property</span> origen_x : 1920
+<span class="k">property</span> origen_y : 0
+<span class="k">property</span> ancho : 1920
+<span class="k">property</span> alto : 1080
+
+<span class="k">tell application</span> <span class="s">"System Events"</span>
+    <span class="k">tell process</span> <span class="s">"Google Chrome"</span>
+        <span class="k">set position of window</span> 1 <span class="k">to</span> <span class="p">{</span>origen_x, origen_y<span class="p">}</span>
+        <span class="k">set size of window</span> 1 <span class="k">to</span> <span class="p">{</span>ancho, alto<span class="p">}</span>
+    <span class="k">end tell</span>
+<span class="k">end tell</span></pre>
+          </div>
+        </div>
+
+        <div class="script-item" id="item-chr-hide">
+          <button class="script-trigger" onclick="toggle('item-chr-hide')">
+            <div class="script-trigger-text">
+              <div class="script-name">CHROME_HIDE.applescript</div>
+              <div class="script-desc">Devuelve Chrome al monitor principal sin cerrar el navegador. La página sigue cargada.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-chr-hide', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-chr-hide"><span class="c">-- CHROME_HIDE
+-- Retira Chrome del monitor externo sin cerrar el navegador.
+-- La ventana queda aparcada en el monitor principal detrás de QLab.
+-- Al volver a ejecutar CHROME_SHOW regresa al monitor externo.</span>
+
+<span class="k">tell application</span> <span class="s">"System Events"</span>
+    <span class="k">tell process</span> <span class="s">"Google Chrome"</span>
+        <span class="k">set position of window</span> 1 <span class="k">to</span> <span class="p">{</span>0, 0<span class="p">}</span>
+        <span class="k">set size of window</span> 1 <span class="k">to</span> <span class="p">{</span>800, 600<span class="p">}</span>
+    <span class="k">end tell</span>
+<span class="k">end tell</span>
+
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span></pre>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Descarga -->
+  <section id="descarga">
+    <div class="section-label">Sesión de QLab</div>
+    <div class="download-card">
+      <div class="dl-text">
+        <div class="dl-title">QLab-Scripts-Live-Events.qlab5</div>
+        <div class="dl-desc">Los cuatro scripts ya pegados en QLab, con nombre y orden. Abre, edita las rutas y ya está.</div>
+      </div>
+      <div class="dl-actions">
+        <a href="https://github.com/javiertatay/QLab-Scripts-Live-Events/releases/latest/download/QLab-Scripts-Live-Events.qlab5" class="btn btn-primary">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Descargar .qlab5
+        </a>
+        <a href="https://github.com/javiertatay/QLab-Scripts-Live-Events/archive/refs/heads/main.zip" class="btn btn-outline">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Repositorio .zip
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Requisitos -->
+  <section>
+    <div class="section-label">Requisitos</div>
+    <div class="req-grid">
+      <div class="req-item">
+        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>QLab 5<small>Cualquier licencia activa</small></div>
+      </div>
+      <div class="req-item">
+        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>macOS Ventura 13+<small>Probado en Sonoma 14</small></div>
+      </div>
+      <div class="req-item">
+        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>Microsoft 365<small>PowerPoint para Mac</small></div>
+      </div>
+      <div class="req-item">
+        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>Google Chrome 124+<small>Para los scripts de Chrome</small></div>
+      </div>
+      <div class="req-item">
+        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>Monitores extendidos<small>No duplicado</small></div>
+      </div>
+      <div class="req-item">
+        <svg class="req-check" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <div>Permiso de Accesibilidad<small>Sistema → Privacidad</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-l">
+      <a href="https://github.com/javiertatay" target="_blank">Javier Tatay Rubio</a>
+      &nbsp;·&nbsp; MIT License
+    </div>
+    <div class="footer-r">QLab 5 · macOS Sonoma 14 · Microsoft 365 · Chrome 124+</div>
+  </footer>
+
+</div>
+
+<script>
+  // Theme toggle
+  const html = document.documentElement;
+  const btn  = document.getElementById('themeToggle');
+  const lbl  = document.getElementById('themeLabel');
+  const saved = localStorage.getItem('qlab-theme') || 'dark';
+  html.dataset.theme = saved;
+  lbl.textContent = saved === 'dark' ? 'Modo claro' : 'Modo oscuro';
+  btn.addEventListener('click', () => {
+    const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+    html.dataset.theme = next;
+    localStorage.setItem('qlab-theme', next);
+    lbl.textContent = next === 'dark' ? 'Modo claro' : 'Modo oscuro';
+  });
+
+  // Accordion
+  function toggle(id) {
+    const item = document.getElementById(id);
+    item.classList.toggle('open');
+  }
+
+  // Copy to clipboard — reads text from the <pre> stripping HTML tags
+  function copyCode(preId, btn) {
+    const pre = document.getElementById(preId);
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      const label = btn.querySelector('svg').nextSibling;
+      const orig = btn.innerHTML;
+      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copiado`;
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = orig;
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
