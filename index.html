@@ -171,6 +171,7 @@ section { padding: 48px 0; border-bottom: 1px solid var(--border); animation: fa
 .app-icon.chr  { background: #1a73e8; }
 .app-icon.zoom { background: #0B5CFF; }
 .app-icon.pdf  { background: #E34234; }
+.app-icon.spt  { background: #1DB954; }
 .app-name { font-size: 13px; font-weight: 600; color: var(--text); }
 .app-meta { margin-left: auto; font-size: 11px; color: var(--text-2); }
 
@@ -312,7 +313,7 @@ footer {
     <div class="eyebrow">QLab 5 · macOS · AppleScript</div>
     <h1>QLab +<br><em>aplicaciones externas</em></h1>
     <p class="tagline">
-      PowerPoint, Chrome, Zoom y PDF, dentro de tu cuelist.
+      PowerPoint, Chrome, Zoom, PDF y Spotify, dentro de tu cuelist.
       Sin cambiar de aplicación, sin perder el foco del show.
     </p>
     <div class="header-actions">
@@ -710,6 +711,156 @@ footer {
         </div>
 
       </div>
+
+      <!-- Spotify -->
+      <div class="app-group">
+        <div class="app-header">
+          <div class="app-icon spt">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="8" cy="8" r="7" fill="#1DB954"/>
+              <path d="M4.5 6.2 C6.5 5.5 9.5 5.7 11.5 6.8" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M5 8.2 C6.7 7.6 9.2 7.8 10.8 8.7" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
+              <path d="M5.5 10.1 C7 9.6 8.8 9.8 10 10.5" stroke="white" stroke-width="0.9" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <span class="app-name">Spotify</span>
+          <span class="app-meta">spotify.com · Mac</span>
+        </div>
+
+        <div class="script-item" id="item-spt-play">
+          <button class="script-trigger" onclick="toggle('item-spt-play')">
+            <div class="script-trigger-text">
+              <div class="script-name">SPOTIFY_PLAY.applescript</div>
+              <div class="script-desc">Arranca la reproducción en Spotify sin robar el foco a QLab. Ideal para música de sala entre actos.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-spt-play', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-spt-play"><span class="c">-- SPOTIFY_PLAY
+-- Arranca la reproducción en Spotify sin robar el foco a QLab.
+-- Útil para música de sala entre actos o durante el descanso.
+-- Spotify debe estar abierto y con la lista/canción deseada ya cargada.
+--
+-- Requisitos:
+--   · Spotify para Mac (spotify.com/download)
+--   · La playlist o canción lista antes del show
+--   · Permiso de Accesibilidad en
+--     Sistema → Privacidad y Seguridad → Accesibilidad
+--
+-- *** OPCIONAL: edita el volumen de inicio (0–100) ***</span>
+<span class="k">property</span> volumenInicio : <span class="s">80</span>
+
+<span class="c">-- Paso 1: asegurarse de que Spotify está abierto</span>
+<span class="k">if not</span> <span class="p">(</span><span class="k">application</span> <span class="s">"Spotify"</span> <span class="k">is running</span><span class="p">)</span> <span class="k">then</span>
+    <span class="k">tell application</span> <span class="s">"Spotify"</span> <span class="k">to activate</span>
+    <span class="k">delay</span> 2
+<span class="k">end if</span>
+
+<span class="c">-- Paso 2: ajustar el volumen y arrancar</span>
+<span class="k">tell application</span> <span class="s">"Spotify"</span>
+    <span class="k">set</span> sound volume <span class="k">to</span> volumenInicio
+    <span class="k">play</span>
+<span class="k">end tell</span>
+
+<span class="c">-- Paso 3: mantener el foco en QLab</span>
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span></pre>
+          </div>
+        </div>
+
+        <div class="script-item" id="item-spt-pause">
+          <button class="script-trigger" onclick="toggle('item-spt-pause')">
+            <div class="script-trigger-text">
+              <div class="script-name">SPOTIFY_PAUSE.applescript</div>
+              <div class="script-desc">Pausa la reproducción manteniendo la posición en la canción. Para interrupciones breves.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-spt-pause', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-spt-pause"><span class="c">-- SPOTIFY_PAUSE
+-- Pausa la reproducción de Spotify manteniendo la posición en la canción.
+-- Usar para interrupciones breves — el show retoma con SPOTIFY_RESUME.
+-- Para paradas definitivas entre actos, usa SPOTIFY_STOP.</span>
+
+<span class="k">tell application</span> <span class="s">"Spotify"</span>
+    <span class="k">try</span>
+        <span class="k">pause</span>
+    <span class="k">on error</span>
+        <span class="c">-- Si ya estaba pausado, no hacer nada</span>
+    <span class="k">end try</span>
+<span class="k">end tell</span>
+
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span></pre>
+          </div>
+        </div>
+
+        <div class="script-item" id="item-spt-stop">
+          <button class="script-trigger" onclick="toggle('item-spt-stop')">
+            <div class="script-trigger-text">
+              <div class="script-name">SPOTIFY_STOP.applescript</div>
+              <div class="script-desc">Para la reproducción sin cerrar Spotify. Incluye alternativa con fade out progresivo para sala con público.</div>
+            </div>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="code-panel">
+            <div class="code-header">
+              <span class="code-lang">AppleScript</span>
+              <button class="copy-btn" onclick="copyCode('code-spt-stop', this)">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copiar
+              </button>
+            </div>
+<pre id="code-spt-stop"><span class="c">-- SPOTIFY_STOP
+-- Para la reproducción de Spotify sin cerrar la aplicación.
+-- Usar al terminar el descanso o cuando el show retoma.
+--
+-- Opcional: SPOTIFY_FADE (ver comentario al final) hace un fade out
+-- progresivo antes de parar — más elegante en sala con público.</span>
+
+<span class="k">tell application</span> <span class="s">"Spotify"</span>
+    <span class="k">try</span>
+        <span class="k">pause</span>
+    <span class="k">on error</span>
+        <span class="c">-- Si ya estaba parado, no hacer nada</span>
+    <span class="k">end try</span>
+<span class="k">end tell</span>
+
+<span class="c">-- Mantener el foco en QLab</span>
+<span class="k">tell application id</span> <span class="s">"com.figure53.QLab.5"</span> <span class="k">to activate</span>
+
+
+<span class="c">-- *** ALTERNATIVA CON FADE OUT ***
+-- Sustituye el bloque "tell application Spotify" de arriba por esto
+-- si quieres un descenso gradual de volumen antes de parar:
+--
+-- tell application "Spotify"
+--     set volumenActual to sound volume
+--     repeat while volumenActual &gt; 0
+--         set volumenActual to volumenActual - 5
+--         if volumenActual &lt; 0 then set volumenActual to 0
+--         set sound volume to volumenActual
+--         delay 0.1
+--     end repeat
+--     pause
+--     set sound volume to 80  -- restaurar volumen para el siguiente cue
+-- end tell</span></pre>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
   <section id="descarga">
@@ -717,7 +868,7 @@ footer {
     <div class="download-card">
       <div class="dl-text">
         <div class="dl-title">QLab-Scripts-Live-Events.qlab5</div>
-        <div class="dl-desc">Los ocho scripts ya pegados en QLab, con nombre y orden. Abre, edita las rutas y ya está.</div>
+        <div class="dl-desc">Los once scripts ya pegados en QLab, con nombre y orden. Abre, edita las rutas y ya está.</div>
       </div>
       <div class="dl-actions">
         <a href="https://github.com/javitatay/QLab-Scripts-Live-Events/raw/main/QLab-Scripts-Live-Events.qlab5" class="btn btn-primary">
@@ -738,7 +889,7 @@ footer {
       <a href="https://github.com/javitatay" target="_blank">Javier Tatay Rubio</a>
       &nbsp;·&nbsp; MIT License
     </div>
-    <div class="footer-r">QLab 5 · macOS Sonoma 14 · Microsoft 365 · Chrome 124+ · Zoom · Preview</div>
+    <div class="footer-r">QLab 5 · macOS Sonoma 14 · Microsoft 365 · Chrome 124+ · Zoom · Preview · Spotify</div>
   </footer>
 
 </div>
