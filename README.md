@@ -1,10 +1,10 @@
 # QLab Live Scripts
 
-AppleScript cues para controlar PowerPoint, Chrome y Zoom desde QLab 5, sin salir del show.
+AppleScript cues para controlar PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5, sin salir del show.
 
 🌐 **[javitatay.github.io/QLab-Scripts-Live-Events](https://javitatay.github.io/QLab-Scripts-Live-Events/)**
 
-El problema es concreto: llega un ponente con un PowerPoint, el show necesita mostrar una web, o hay una videollamada de Zoom activa que tienes que gestionar desde la cuelist. QLab no hace eso solo. Estos scripts sí.
+El problema es concreto: llega un ponente con un PowerPoint, el show necesita mostrar una web, hay una videollamada de Zoom activa que tienes que gestionar desde la cuelist, o quieres arrancar y parar la música de sala sin soltar el ratón de QLab. QLab no hace eso solo. Estos scripts sí.
 
 Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ninguno roba el control de tu Mac en medio del show.
 
@@ -40,6 +40,14 @@ Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ning
 | `PDF_SHOW.applescript` | Abre un PDF en el monitor externo a pantalla completa con Vista Presentación de Preview. QLab no pierde el foco. |
 | `PDF_CLOSE.applescript` | Cierra el documento en Preview sin guardar cambios. |
 
+### Spotify
+
+| Archivo | Qué hace |
+|---|---|
+| `SPOTIFY_PLAY.applescript` | Arranca la reproducción en Spotify sin robar el foco a QLab. Ideal para música de sala entre actos o durante el descanso. |
+| `SPOTIFY_PAUSE.applescript` | Pausa la reproducción manteniendo la posición en la canción. Para interrupciones breves. |
+| `SPOTIFY_STOP.applescript` | Para la reproducción sin cerrar Spotify. Incluye alternativa con fade out progresivo para sala con público. |
+
 ---
 
 ## Requisitos
@@ -49,6 +57,7 @@ Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ning
 - Microsoft PowerPoint para Mac (Microsoft 365)
 - Google Chrome 124 o superior
 - Preview (incluido en macOS)
+- Spotify para Mac ([spotify.com/download](https://www.spotify.com/download/))
 - Monitores en modo **extendido** — no duplicado
 - Permiso de Accesibilidad para QLab en *Sistema → Privacidad y Seguridad → Accesibilidad*
 
@@ -68,7 +77,7 @@ Con el cue seleccionado, haz clic en la pestaña **Script** del panel inferior.
 
 **3. Copia y pega el código**
 
-Abre el `.applescript` en GitHub, copia el contenido y pégalo en QLab con `Cmd+V`. También puedes copiar directamente desde [la web del proyecto](https://javiertatay.github.io/QLab-Scripts-Live-Events/) con el botón que aparece en cada script.
+Abre el `.applescript` en GitHub, copia el contenido y pégalo en QLab con `Cmd+V`. También puedes copiar directamente desde [la web del proyecto](https://javitatay.github.io/QLab-Scripts-Live-Events/) con el botón que aparece en cada script.
 
 **4. Edita lo que necesites**
 
@@ -86,7 +95,7 @@ Pulsa **Compile Script**. Si no aparece ningún error en rojo, está listo.
 
 **6. Ponle nombre al cue**
 
-En la pestaña **Basics** del inspector, dale un nombre descriptivo: `PPT_SHOW`, `CHROME_SHOW`, etc.
+En la pestaña **Basics** del inspector, dale un nombre descriptivo: `PPT_SHOW`, `SPOTIFY_PLAY`, etc.
 
 **7. Pruébalo**
 
@@ -164,15 +173,36 @@ Durante el show:
 
 ---
 
+## Setup de Spotify antes del show
+
+1. Abre Spotify y carga la playlist o canción que quieres reproducir
+2. Ajusta el volumen de inicio en `SPOTIFY_PLAY.applescript` si lo necesitas:
+
+```applescript
+property volumenInicio : 80  -- rango 0–100
+```
+
+Durante el show:
+
+```
+[Script Cue]  SPOTIFY_PLAY   →  arranca la música de sala
+[Script Cue]  SPOTIFY_PAUSE  →  pausa sin perder la posición
+[Script Cue]  SPOTIFY_STOP   →  para la reproducción al retomar el show
+```
+
+`SPOTIFY_STOP` incluye en los comentarios una variante con **fade out progresivo** — más elegante en sala con público. Sustituy el bloque `tell application "Spotify"` por el que aparece al final del script.
+
+---
+
 ## Lo que estos scripts no hacen
 
-No hacen mirroring de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas NDI, Syphon o una solución similar. Estos scripts funcionan cuando PowerPoint, Chrome y Zoom corren en el mismo Mac que QLab.
+No hacen mirroring de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas NDI, Syphon o una solución similar. Estos scripts funcionan cuando PowerPoint, Chrome, Zoom y Spotify corren en el mismo Mac que QLab.
 
 ---
 
 ## Sesión de QLab
 
-En la sección [Releases](../../releases) encontrarás `QLab-Scripts-Live-Events.qlab5` con los cuatro scripts ya integrados, nombrados y ordenados en la cuelist. Descarga, abre, edita las rutas y listo.
+En la sección [Releases](../../releases) encontrarás `QLab-Scripts-Live-Events.qlab5` con los once scripts ya integrados, nombrados y ordenados en la cuelist. Descarga, abre, edita las rutas y listo.
 
 ---
 
@@ -192,7 +222,10 @@ QLab-Scripts-Live-Events/
 ├── ZOOM_SHOW.applescript
 ├── ZOOM_HIDE.applescript
 ├── PDF_SHOW.applescript
-└── PDF_CLOSE.applescript
+├── PDF_CLOSE.applescript
+├── SPOTIFY_PLAY.applescript
+├── SPOTIFY_PAUSE.applescript
+└── SPOTIFY_STOP.applescript
 ```
 
 ---
@@ -209,4 +242,4 @@ MIT — libre para uso en producción comercial y no comercial.
 
 ---
 
-*Javier Tatay Rubio · macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+*
+*Javier Tatay Rubio · macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+ · Spotify*
