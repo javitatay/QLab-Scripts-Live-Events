@@ -1,16 +1,28 @@
+<div align="center">
+
 # QLab Live Scripts
 
-AppleScript cues para controlar PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5, sin salir del show.
+**Controla PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.**
 
-🌐 **[javitatay.github.io/QLab-Scripts-Live-Events](https://javitatay.github.io/QLab-Scripts-Live-Events/)**
+Una colección de cues AppleScript para QLab 5 que gestionan las aplicaciones más habituales en un evento en directo. Cada script hace su trabajo y devuelve el foco a QLab: ninguno roba el control de tu Mac en mitad del show.
 
-El problema es concreto: llega un ponente con un PowerPoint, el show necesita mostrar una web, hay una videollamada de Zoom activa que tienes que gestionar desde la cuelist, o quieres arrancar y parar la música de sala sin soltar el ratón de QLab. QLab no hace eso solo. Estos scripts sí.
+[![Abrir en el navegador](https://img.shields.io/badge/🌐_Abrir_en_el_navegador-141210?style=for-the-badge)](https://javitatay.github.io/QLab-Scripts-Live-Events/)
 
-Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ninguno roba el control de tu Mac en medio del show.
+![plataforma](https://img.shields.io/badge/plataforma-macOS-c89838?style=flat-square) ![qlab](https://img.shields.io/badge/QLab-5-green?style=flat-square) ![scripts](https://img.shields.io/badge/scripts-11-orange?style=flat-square) [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](LICENSE)
+
+</div>
 
 ---
 
-## Scripts
+## ¿Qué resuelve?
+
+El problema es concreto: llega un ponente con un PowerPoint, el show necesita mostrar una web, hay una videollamada de Zoom que tienes que gestionar desde la cuelist, o quieres arrancar y parar la música de sala sin soltar el ratón de QLab. QLab no hace eso solo. Estos scripts sí.
+
+Todos funcionan igual: el script hace su trabajo y **devuelve el foco a QLab**. Ninguno roba el control de tu Mac en medio del show.
+
+---
+
+## 🎬 Scripts
 
 ### PowerPoint
 
@@ -50,7 +62,7 @@ Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ning
 
 ---
 
-## Requisitos
+## ✅ Requisitos
 
 - QLab 5 con cualquier licencia activa
 - macOS Ventura 13 o superior (probado en Sonoma 14)
@@ -63,24 +75,20 @@ Todos funcionan igual: el script hace su trabajo y devuelve el foco a QLab. Ning
 
 ---
 
-## Cómo añadir un script a QLab
+## 🚀 Cómo añadir un script a QLab
 
 El proceso es el mismo para todos los scripts.
 
 **1. Crea el Script Cue**
-
 En la cuelist de QLab, pulsa `Cmd+2` o ve a *Cue → New Script Cue*.
 
 **2. Abre la pestaña Script**
-
 Con el cue seleccionado, haz clic en la pestaña **Script** del panel inferior.
 
 **3. Copia y pega el código**
-
 Abre el `.applescript` en GitHub, copia el contenido y pégalo en QLab con `Cmd+V`. También puedes copiar directamente desde [la web del proyecto](https://javitatay.github.io/QLab-Scripts-Live-Events/) con el botón que aparece en cada script.
 
 **4. Edita lo que necesites**
-
 Busca las líneas marcadas con `*** EDITA` — son las únicas que tienes que tocar. En `PPT_SHOW`, la ruta al archivo:
 
 ```applescript
@@ -90,26 +98,25 @@ property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_PRESENTACION.pptx"
 Para saber la ruta exacta: arrastra el archivo desde el Finder a una ventana de Terminal. O clic derecho sobre el archivo, mantén `Option` y elige *Copiar como nombre de ruta*.
 
 **5. Compila**
-
 Pulsa **Compile Script**. Si no aparece ningún error en rojo, está listo.
 
 **6. Ponle nombre al cue**
-
 En la pestaña **Basics** del inspector, dale un nombre descriptivo: `PPT_SHOW`, `SPOTIFY_PLAY`, etc.
 
 **7. Pruébalo**
-
 Selecciona el cue y pulsa `Space`. La primera vez que QLab intenta controlar otra aplicación, macOS pedirá permiso de Accesibilidad — actívalo en *Sistema → Privacidad y Seguridad → Accesibilidad*.
 
 ---
 
-## Setup de PowerPoint antes del show
+## ⚙️ Setup por aplicación
 
-1. Abre el `.pptx` en PowerPoint
-2. Ve a *Presentación → Configurar presentación*
-3. En **Monitor**, selecciona el monitor externo
-4. Guarda — PowerPoint recuerda esa configuración entre sesiones
-5. Edita `rutaArchivo` en `PPT_SHOW.applescript` con la ruta completa al `.pptx`
+### PowerPoint
+
+1. Abre el `.pptx` en PowerPoint.
+2. Ve a *Presentación → Configurar presentación*.
+3. En **Monitor**, selecciona el monitor externo.
+4. Guarda — PowerPoint recuerda esa configuración entre sesiones.
+5. Edita `rutaArchivo` en `PPT_SHOW.applescript` con la ruta completa al `.pptx`.
 
 Durante el show:
 
@@ -121,11 +128,9 @@ Durante el show:
 
 Si la presentación tarda en cargar, sube el `delay 3` a `4` o `5`.
 
----
+### Chrome
 
-## Setup de Chrome antes del show
-
-1. Abre Chrome y navega a la URL que quieres mostrar
+1. Abre Chrome y navega a la URL que quieres mostrar.
 2. Edita las propiedades de `CHROME_SHOW.applescript` con las coordenadas de tu monitor externo:
 
 ```applescript
@@ -144,15 +149,11 @@ Durante el show:
 [Script Cue]  CHROME_HIDE  →  Chrome vuelve al principal
 ```
 
----
-
-## Setup de Zoom antes del show
+### Zoom
 
 `ZOOM_SHOW` y `ZOOM_HIDE` funcionan igual que los de Chrome. Edita las mismas propiedades de coordenadas en `ZOOM_SHOW.applescript`. Zoom tiene que estar en llamada activa antes de ejecutar el script.
 
----
-
-## Setup de PDF antes del show
+### PDF / Preview
 
 1. Edita las propiedades de `PDF_SHOW.applescript` con la ruta al archivo y las coordenadas del monitor externo:
 
@@ -171,11 +172,9 @@ Durante el show:
 [Script Cue]  PDF_CLOSE  →  cierra Preview al terminar
 ```
 
----
+### Spotify
 
-## Setup de Spotify antes del show
-
-1. Abre Spotify y carga la playlist o canción que quieres reproducir
+1. Abre Spotify y carga la playlist o canción que quieres reproducir.
 2. Ajusta el volumen de inicio en `SPOTIFY_PLAY.applescript` si lo necesitas:
 
 ```applescript
@@ -190,23 +189,25 @@ Durante el show:
 [Script Cue]  SPOTIFY_STOP   →  para la reproducción al retomar el show
 ```
 
-`SPOTIFY_STOP` incluye en los comentarios una variante con **fade out progresivo** — más elegante en sala con público. Sustituy el bloque `tell application "Spotify"` por el que aparece al final del script.
+`SPOTIFY_STOP` incluye en los comentarios una variante con **fade out progresivo** — más elegante en sala con público. Sustituye el bloque `tell application "Spotify"` por el que aparece al final del script.
 
 ---
 
-## Lo que estos scripts no hacen
+## 🚫 Lo que estos scripts no hacen
 
 No hacen mirroring de la pantalla de otro Mac. Si el ponente trae su propio ordenador, necesitas NDI, Syphon o una solución similar. Estos scripts funcionan cuando PowerPoint, Chrome, Zoom y Spotify corren en el mismo Mac que QLab.
 
 ---
 
-## Sesión de QLab
+## 📦 Sesión de QLab
 
 En la sección [Releases](../../releases) encontrarás `QLab-Scripts-Live-Events.qlab5` con los once scripts ya integrados, nombrados y ordenados en la cuelist. Descarga, abre, edita las rutas y listo.
 
 ---
 
-## Estructura del repositorio
+## 🛠️ Para desarrolladores
+
+El repositorio es una colección de scripts AppleScript independientes, sin dependencias ni build step. Cada uno se pega directamente en un Script Cue de QLab 5.
 
 ```
 QLab-Scripts-Live-Events/
@@ -228,18 +229,29 @@ QLab-Scripts-Live-Events/
 └── SPOTIFY_STOP.applescript
 ```
 
----
-
-## Contribuir
+### Contribuir
 
 Si tienes un script que integra otra aplicación con QLab, las instrucciones están en [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ---
 
-## Licencia
+## 📄 Licencia
 
-MIT — libre para uso en producción comercial y no comercial.
+QLab Live Scripts se distribuye bajo la licencia **[GNU General Public License v3.0](LICENSE)**.
+
+Eres libre de usar, estudiar, modificar y compartir este software. La única condición importante es que, si distribuyes una versión modificada, debe mantenerse también como código abierto bajo esta misma licencia, para que las mejoras sigan estando disponibles para todos.
+
+[![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](LICENSE)
 
 ---
 
-*Javier Tatay Rubio · macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+ · Spotify*
+## ✉️ Contacto
+
+**Javier Tatay Rubio**
+📧 j.tatayrubio@edu.gva.es
+
+---
+
+<div align="center">
+<sub>Probado en macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+ · Spotify</sub>
+</div>
