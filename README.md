@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="banner.png" alt="QLab Live Scripts" width="100%">
+
 # QLab Live Scripts
 
 **Controla PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.**
