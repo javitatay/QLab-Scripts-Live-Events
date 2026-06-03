@@ -9,6 +9,7 @@
 Una colección de cues AppleScript para QLab 5 que gestionan las aplicaciones más habituales en un evento en directo. Cada script hace su trabajo y devuelve el foco a QLab: ninguno roba el control de tu Mac en mitad del show.
 
 [![Abrir en el navegador](https://img.shields.io/badge/🌐_Abrir_en_el_navegador-141210?style=for-the-badge)](https://javitatay.github.io/QLab-Scripts-Live-Events/)
+[![Invítame a un café](https://img.shields.io/badge/☕_Invítame_a_un_café-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/javitatay)
 
 ![plataforma](https://img.shields.io/badge/plataforma-macOS-c89838?style=flat-square) ![qlab](https://img.shields.io/badge/QLab-5-green?style=flat-square) ![scripts](https://img.shields.io/badge/scripts-11-orange?style=flat-square) [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](LICENSE)
 
