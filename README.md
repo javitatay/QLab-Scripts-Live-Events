@@ -1,6 +1,4 @@
-<div align="center">
-
-<img src="banner.png" alt="QLab Live Scripts" width="100%">
+[![QLab Live Scripts](https://github.com/javitatay/QLab-Scripts-Live-Events/raw/main/banner.png)](/javitatay/QLab-Scripts-Live-Events/blob/main/banner.png)
 
 # QLab Live Scripts
 
@@ -8,12 +6,9 @@
 
 Una colección de cues AppleScript para QLab 5 que gestionan las aplicaciones más habituales en un evento en directo. Cada script hace su trabajo y devuelve el foco a QLab: ninguno roba el control de tu Mac en mitad del show.
 
-[![Abrir en el navegador](https://img.shields.io/badge/🌐_Abrir_en_el_navegador-141210?style=for-the-badge)](https://javitatay.github.io/QLab-Scripts-Live-Events/)
-[![Invítame a un café](https://img.shields.io/badge/☕_Invítame_a_un_café-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/javitatay)
+[![Abrir en el navegador](https://img.shields.io/badge/%F0%9F%8C%90_Abrir_en_el_navegador-141210?style=for-the-badge)](https://javitatay.github.io/QLab-Scripts-Live-Events/) [![Invítame a un café](https://img.shields.io/badge/%E2%98%95_Inv%C3%ADtame_a_un_caf%C3%A9-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=000)](https://buymeacoffee.com/javitatay)
 
-![plataforma](https://img.shields.io/badge/plataforma-macOS-c89838?style=flat-square) ![qlab](https://img.shields.io/badge/QLab-5-green?style=flat-square) ![scripts](https://img.shields.io/badge/scripts-11-orange?style=flat-square) [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](LICENSE)
-
-</div>
+[![plataforma](https://img.shields.io/badge/platform-macOS-c89838?style=flat-square)](https://img.shields.io/badge/platform-macOS-c89838?style=flat-square) [![qlab](https://img.shields.io/badge/QLab-5-green?style=flat-square)](https://img.shields.io/badge/QLab-5-green?style=flat-square) [![scripts](https://img.shields.io/badge/scripts-10-orange?style=flat-square)](https://img.shields.io/badge/scripts-10-orange?style=flat-square) [![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](https://github.com/javitatay/QLab-Scripts-Live-Events/blob/main/LICENSE)
 
 ---
 
@@ -29,39 +24,38 @@ Todos funcionan igual: el script hace su trabajo y **devuelve el foco a QLab**. 
 
 ### PowerPoint
 
-| Archivo | Qué hace |
-|---|---|
-| `PPT_SHOW.applescript` | Abre el `.pptx` en el monitor externo y lanza el slideshow. El ponente avanza con su clicker. QLab sigue activo en el principal. |
-| `PPT_CLOSE.applescript` | Para el slideshow y cierra el archivo sin guardar. |
+| Archivo                 | Qué hace                                                                                                                         |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `PPT_SHOW.applescript`  | Abre el `.pptx` en el monitor externo y lanza el slideshow. El ponente avanza con su clicker. QLab sigue activo en el principal. |
+| `PPT_CLOSE.applescript` | Para el slideshow y cierra el archivo sin guardar.                                                                               |
 
 ### Chrome
 
-| Archivo | Qué hace |
-|---|---|
+| Archivo                   | Qué hace                                                                                   |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
 | `CHROME_SHOW.applescript` | Lleva la ventana de Chrome al monitor externo a pantalla completa. QLab no pierde el foco. |
-| `CHROME_HIDE.applescript` | Devuelve Chrome al monitor principal sin cerrar el navegador. La página sigue cargada. |
+| `CHROME_HIDE.applescript` | Devuelve Chrome al monitor principal sin cerrar el navegador. La página sigue cargada.     |
 
 ### Zoom
 
-| Archivo | Qué hace |
-|---|---|
+| Archivo                 | Qué hace                                                                                 |
+| ----------------------- | ----------------------------------------------------------------------------------------- |
 | `ZOOM_SHOW.applescript` | Lleva la ventana de Zoom al monitor externo a pantalla completa. QLab no pierde el foco. |
-| `ZOOM_HIDE.applescript` | Devuelve Zoom al monitor principal sin cerrar la llamada. |
+| `ZOOM_HIDE.applescript` | Devuelve Zoom al monitor principal sin cerrar la llamada.                                |
 
 ### PDF / Preview
 
-| Archivo | Qué hace |
-|---|---|
-| `PDF_SHOW.applescript` | Abre un PDF en el monitor externo a pantalla completa con Vista Presentación de Preview. QLab no pierde el foco. |
-| `PDF_CLOSE.applescript` | Cierra el documento en Preview sin guardar cambios. |
+| Archivo                 | Qué hace                                                                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `PDF_SHOW.applescript`  | Abre un PDF en el monitor externo a pantalla completa con Vista Presentación de Preview. QLab no pierde el foco. |
+| `PDF_CLOSE.applescript` | Cierra el documento en Preview sin guardar cambios.                                                              |
 
 ### Spotify
 
-| Archivo | Qué hace |
-|---|---|
-| `SPOTIFY_PLAY.applescript` | Arranca la reproducción en Spotify sin robar el foco a QLab. Ideal para música de sala entre actos o durante el descanso. |
-| `SPOTIFY_PAUSE.applescript` | Pausa la reproducción manteniendo la posición en la canción. Para interrupciones breves. |
-| `SPOTIFY_STOP.applescript` | Para la reproducción sin cerrar Spotify. Incluye alternativa con fade out progresivo para sala con público. |
+| Archivo                     | Qué hace                                                                                                                  |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `SPOTIFY_PLAY.applescript`  | Arranca la reproducción en Spotify sin robar el foco a QLab. Ideal para música de sala entre actos o durante el descanso. |
+| `SPOTIFY_STOP.applescript`  | Para la reproducción sin cerrar Spotify. Incluye alternativa con fade out progresivo para sala con público.               |
 
 ---
 
@@ -82,32 +76,25 @@ Todos funcionan igual: el script hace su trabajo y **devuelve el foco a QLab**. 
 
 El proceso es el mismo para todos los scripts.
 
-**1. Crea el Script Cue**
-En la cuelist de QLab, pulsa `Cmd+2` o ve a *Cue → New Script Cue*.
+**1. Crea el Script Cue** En la cuelist de QLab, pulsa `Cmd+2` o ve a *Cue → New Script Cue*.
 
-**2. Abre la pestaña Script**
-Con el cue seleccionado, haz clic en la pestaña **Script** del panel inferior.
+**2. Abre la pestaña Script** Con el cue seleccionado, haz clic en la pestaña **Script** del panel inferior.
 
-**3. Copia y pega el código**
-Abre el `.applescript` en GitHub, copia el contenido y pégalo en QLab con `Cmd+V`. También puedes copiar directamente desde [la web del proyecto](https://javitatay.github.io/QLab-Scripts-Live-Events/) con el botón que aparece en cada script.
+**3. Copia y pega el código** Abre el `.applescript` en GitHub, copia el contenido y pégalo en QLab con `Cmd+V`. También puedes copiar directamente desde [la web del proyecto](https://javitatay.github.io/QLab-Scripts-Live-Events/) con el botón que aparece en cada script.
 
-**4. Edita lo que necesites**
-Busca las líneas marcadas con `*** EDITA` — son las únicas que tienes que tocar. En `PPT_SHOW`, la ruta al archivo:
+**4. Edita lo que necesites** Busca las líneas marcadas con `*** EDITA` — son las únicas que tienes que tocar. En `PPT_SHOW`, la ruta al archivo:
 
-```applescript
+```
 property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_PRESENTACION.pptx"
 ```
 
 Para saber la ruta exacta: arrastra el archivo desde el Finder a una ventana de Terminal. O clic derecho sobre el archivo, mantén `Option` y elige *Copiar como nombre de ruta*.
 
-**5. Compila**
-Pulsa **Compile Script**. Si no aparece ningún error en rojo, está listo.
+**5. Compila** Pulsa **Compile Script**. Si no aparece ningún error en rojo, está listo.
 
-**6. Ponle nombre al cue**
-En la pestaña **Basics** del inspector, dale un nombre descriptivo: `PPT_SHOW`, `SPOTIFY_PLAY`, etc.
+**6. Ponle nombre al cue** En la pestaña **Basics** del inspector, dale un nombre descriptivo: `PPT_SHOW`, `SPOTIFY_PLAY`, etc.
 
-**7. Pruébalo**
-Selecciona el cue y pulsa `Space`. La primera vez que QLab intenta controlar otra aplicación, macOS pedirá permiso de Accesibilidad — actívalo en *Sistema → Privacidad y Seguridad → Accesibilidad*.
+**7. Pruébalo** Selecciona el cue y pulsa `Space`. La primera vez que QLab intenta controlar otra aplicación, macOS pedirá permiso de Accesibilidad — actívalo en *Sistema → Privacidad y Seguridad → Accesibilidad*.
 
 ---
 
@@ -136,7 +123,7 @@ Si la presentación tarda en cargar, sube el `delay 3` a `4` o `5`.
 1. Abre Chrome y navega a la URL que quieres mostrar.
 2. Edita las propiedades de `CHROME_SHOW.applescript` con las coordenadas de tu monitor externo:
 
-```applescript
+```
 property origen_x : 1920  -- ancho del monitor principal en píxeles
 property origen_y : 0
 property ancho    : 1920  -- resolución del monitor externo
@@ -160,7 +147,7 @@ Durante el show:
 
 1. Edita las propiedades de `PDF_SHOW.applescript` con la ruta al archivo y las coordenadas del monitor externo:
 
-```applescript
+```
 property rutaArchivo : "/Users/TU_USUARIO/Desktop/NOMBRE_DOCUMENTO.pdf"
 property origen_x : 1920
 property origen_y : 0
@@ -180,7 +167,7 @@ Durante el show:
 1. Abre Spotify y carga la playlist o canción que quieres reproducir.
 2. Ajusta el volumen de inicio en `SPOTIFY_PLAY.applescript` si lo necesitas:
 
-```applescript
+```
 property volumenInicio : 80  -- rango 0–100
 ```
 
@@ -188,7 +175,6 @@ Durante el show:
 
 ```
 [Script Cue]  SPOTIFY_PLAY   →  arranca la música de sala
-[Script Cue]  SPOTIFY_PAUSE  →  pausa sin perder la posición
 [Script Cue]  SPOTIFY_STOP   →  para la reproducción al retomar el show
 ```
 
@@ -204,7 +190,7 @@ No hacen mirroring de la pantalla de otro Mac. Si el ponente trae su propio orde
 
 ## 📦 Sesión de QLab
 
-En la sección [Releases](../../releases) encontrarás `QLab-Scripts-Live-Events.qlab5` con los once scripts ya integrados, nombrados y ordenados en la cuelist. Descarga, abre, edita las rutas y listo.
+En la raíz del repo encontrarás [`QLab-Scripts-Live-Events.qlab5`](https://github.com/javitatay/QLab-Scripts-Live-Events/blob/main/QLab-Scripts-Live-Events.qlab5) con los diez scripts ya integrados, nombrados y ordenados en la cuelist. Descarga, abre, edita las rutas y listo.
 
 ---
 
@@ -228,33 +214,29 @@ QLab-Scripts-Live-Events/
 ├── PDF_SHOW.applescript
 ├── PDF_CLOSE.applescript
 ├── SPOTIFY_PLAY.applescript
-├── SPOTIFY_PAUSE.applescript
 └── SPOTIFY_STOP.applescript
 ```
 
 ### Contribuir
 
-Si tienes un script que integra otra aplicación con QLab, las instrucciones están en [`CONTRIBUTING.md`](CONTRIBUTING.md).
+Si tienes un script que integra otra aplicación con QLab, las instrucciones están en [`CONTRIBUTING.md`](https://github.com/javitatay/QLab-Scripts-Live-Events/blob/main/CONTRIBUTING.md).
 
 ---
 
 ## 📄 Licencia
 
-QLab Live Scripts se distribuye bajo la licencia **[GNU General Public License v3.0](LICENSE)**.
+QLab Live Scripts se distribuye bajo la licencia **[GNU General Public License v3.0](https://github.com/javitatay/QLab-Scripts-Live-Events/blob/main/LICENSE)**.
 
 Eres libre de usar, estudiar, modificar y compartir este software. La única condición importante es que, si distribuyes una versión modificada, debe mantenerse también como código abierto bajo esta misma licencia, para que las mejoras sigan estando disponibles para todos.
 
-[![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](LICENSE)
+[![Licencia: GPL v3](https://img.shields.io/badge/Licencia-GPLv3-c89838?style=flat-square)](https://github.com/javitatay/QLab-Scripts-Live-Events/blob/main/LICENSE)
 
 ---
 
 ## ✉️ Contacto
 
-**Javier Tatay Rubio**
-📧 j.tatayrubio@edu.gva.es
+**Javier Tatay Rubio** 📧 <j.tatayrubio@edu.gva.es>
 
 ---
 
-<div align="center">
-<sub>Probado en macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+ · Spotify</sub>
-</div>
+Probado en macOS Sonoma 14 · QLab 5 · Microsoft 365 · Chrome 124+ · Spotify
