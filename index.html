@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QLab Live Scripts</title>
+<meta name="description" content="Scripts de AppleScript para controlar PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="QLab Live Scripts">
+<meta property="og:description" content="Controla PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.">
+<meta property="og:image" content="https://javitatay.github.io/QLab-Scripts-Live-Events/banner.png">
+<meta property="og:url" content="https://javitatay.github.io/QLab-Scripts-Live-Events/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QLab Live Scripts">
+<meta name="twitter:description" content="Controla PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23000'/><polygon points='11,9 11,23 24,16' fill='%230099ff'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
@@ -71,9 +80,9 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 12px; font-weight: 500;
   color: var(--text-2); cursor: pointer;
-  transition: background .15s, color .15s;
+  transition: background .15s, color .15s, transform .1s ease;
 }
-.theme-btn:hover { background: var(--frosted-hi); color: var(--text); }
+
 .icon-sun  { display: block; }
 .icon-moon { display: none; }
 [data-theme="light"] .icon-sun  { display: none; }
@@ -114,19 +123,19 @@ h1 em { font-style: normal; color: var(--accent); }
   font-feature-settings: "cv06" on, "cv11" on, "ss03" on;
   text-decoration: none; cursor: pointer;
   border: none;
-  transition: all .15s ease; white-space: nowrap;
+  transition: background .15s ease, color .15s ease, transform .1s ease; white-space: nowrap;
 }
 .btn-primary {
   background: #ffffff;
   color: #000000;
   box-shadow: rgba(255,255,255,0.1) 0px 0.5px 0px 0.5px;
 }
-.btn-primary:hover { background: rgba(255,255,255,0.88); }
+
 .btn-outline {
   background: var(--frosted);
   color: var(--text-2);
 }
-.btn-outline:hover { background: var(--frosted-hi); color: var(--text); }
+
 
 /* Sections */
 section { padding: 56px 0; border-bottom: 1px solid var(--border); animation: fadeUp .5s .05s ease both; }
@@ -152,10 +161,7 @@ section { padding: 56px 0; border-bottom: 1px solid var(--border); animation: fa
   transition: box-shadow .2s;
   background: var(--surface);
 }
-.app-group:hover {
-  box-shadow: rgba(0,153,255,0.28) 0px 0px 0px 1px,
-              rgba(0,153,255,0.06) 0px 0px 24px 0px;
-}
+
 
 .app-header {
   display: flex; align-items: center; gap: 10px;
@@ -190,7 +196,7 @@ section { padding: 56px 0; border-bottom: 1px solid var(--border); animation: fa
   text-align: left; color: inherit;
   transition: background .15s;
 }
-.script-trigger:hover { background: rgba(255,255,255,0.03); }
+
 
 .script-trigger-text { flex: 1; }
 .script-name {
@@ -239,9 +245,9 @@ section { padding: 56px 0; border-bottom: 1px solid var(--border); animation: fa
   font-family: 'Inter', sans-serif;
   font-size: 11px; font-weight: 500;
   color: var(--text-2); cursor: pointer;
-  transition: all .15s;
+  transition: background .15s, color .15s, transform .1s ease;
 }
-.copy-btn:hover { background: var(--frosted-hi); color: var(--text); }
+
 .copy-btn.copied { background: rgba(0,153,255,0.12); color: var(--accent); }
 
 pre {
@@ -270,11 +276,7 @@ pre {
               rgba(255,255,255,0.05) 0px 0.5px 0px 0.5px;
   transition: box-shadow .2s;
 }
-.download-card:hover {
-  box-shadow: rgba(0,153,255,0.28) 0px 0px 0px 1px,
-              rgba(255,255,255,0.05) 0px 0.5px 0px 0.5px,
-              rgba(0,0,0,0.25) 0px 10px 30px;
-}
+
 .dl-text { flex: 1; }
 .dl-title {
   font-size: 14px; font-weight: 600; color: var(--text);
@@ -299,12 +301,39 @@ footer {
   color: var(--accent); font-weight: 500; text-decoration: none;
   transition: opacity .15s;
 }
-.footer-l a:hover { opacity: .75; }
+
 .footer-r { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.02em; }
+
+
+@media (hover: hover) and (pointer: fine) {
+.theme-btn:hover { background: var(--frosted-hi); color: var(--text); }
+.btn-primary:hover { background: rgba(255,255,255,0.88); }
+.btn-outline:hover { background: var(--frosted-hi); color: var(--text); }
+.app-group:hover {
+  box-shadow: rgba(0,153,255,0.28) 0px 0px 0px 1px,
+              rgba(0,153,255,0.06) 0px 0px 24px 0px;
+}
+.script-trigger:hover { background: rgba(255,255,255,0.03); }
+.copy-btn:hover { background: var(--frosted-hi); color: var(--text); }
+.download-card:hover {
+  box-shadow: rgba(0,153,255,0.28) 0px 0px 0px 1px,
+              rgba(255,255,255,0.05) 0px 0.5px 0px 0.5px,
+              rgba(0,0,0,0.25) 0px 10px 30px;
+}
+.footer-l a:hover { opacity: .75; }
+}
+
+.btn-primary:active, .btn-outline:active, .theme-btn:active, .copy-btn:active {
+  transform: scale(0.97);
+}
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  header, section { animation: none; }
 }
 </style>
 </head>
