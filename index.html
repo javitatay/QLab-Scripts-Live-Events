@@ -50,6 +50,7 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
@@ -334,6 +335,14 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
   header, section { animation: none; }
+}
+
+/* ── Touch targets WCAG 2.5.5: mínimo 44×44px en dispositivos de toque ── */
+@media (pointer: coarse) {
+  .copy-btn,
+  .theme-btn {
+    min-height: 44px;
+  }
 }
 </style>
 </head>
