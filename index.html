@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f7f6f3">
 <title>QLab Live Scripts</title>
 <meta name="description" content="Scripts de AppleScript para controlar PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.">
 <meta property="og:type" content="website">
@@ -13,45 +14,58 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="QLab Live Scripts">
 <meta name="twitter:description" content="Controla PowerPoint, Chrome, Zoom, PDF y Spotify desde QLab 5 sin salir del show.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23000'/><polygon points='11,9 11,23 24,16' fill='%230099ff'/></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='3' y='3' width='26' height='26' rx='7' fill='%23f2da8e' stroke='%231f1d1a' stroke-width='2.5'/><polygon points='12,10 12,22 23,16' fill='%231f1d1a'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:           #000000;
-  --surface:      #090909;
-  --surface-2:    #0d0d0d;
-  --border:       rgba(255,255,255,0.08);
-  --border-hi:    rgba(255,255,255,0.15);
-  --ring-blue:    rgba(0,153,255,0.15);
-  --text:         #ffffff;
-  --text-2:       #a6a6a6;
-  --text-3:       rgba(255,255,255,0.6);
-  --accent:       #0099ff;
-  --frosted:      rgba(255,255,255,0.1);
-  --frosted-hi:   rgba(255,255,255,0.16);
-  --code-bg:      #050505;
-  --code-text:    #c8d8e8;
-  --code-comment: #3a5570;
-  --code-keyword: #6aaccc;
-  --code-string:  #85b880;
-  --ot: "cv01" on, "cv05" on, "cv09" on, "cv11" on, "ss03" on, "ss07" on;
+  /* Paleta muestreada del banner */
+  --bg:       #f7f6f3;
+  --surface:  #ffffff;
+  --ink:      #1f1d1a;
+  --ink-2:    #6f6b64;   /* gris del subtítulo del banner */
+  --ink-3:    #4a463f;   /* texto secundario sobre pasteles */
+  --line:     #e6e2da;   /* borde de la tarjeta del banner */
+  --blue:     #cbe6f7;
+  --yellow:   #f2da8e;
+  --green:    #d5e7d0;
+  --pink:     #f5cfcd;
+  --tint:     var(--pink);   /* color por defecto de las tarjetas; .tint-* lo sustituye */
+
+  /* Código: tinta con los pasteles como sintaxis */
+  --code-bg:      #1f1d1a;
+  --code-bar:     #2b2824;
+  --code-text:    #f7f6f3;
+  --code-comment: #a39f97;
+  --code-keyword: #cbe6f7;
+  --code-string:  #f2da8e;
+
+  --stroke: 2px;
+  --radius: 16px;
+  --offset: 8px;
+
+  --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:    'SF Mono', 'Fira Code', 'Fira Mono', ui-monospace, monospace;
+
+  color-scheme: light;
 }
 
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
-  color: var(--text);
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-feature-settings: var(--ot);
+  color: var(--ink);
+  font-family: var(--font-body);
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
+::selection { background: var(--yellow); color: var(--ink); }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
 
@@ -63,201 +77,215 @@ body {
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
   padding: 20px 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
 }
 .topbar-id {
-  font-size: 13px; font-weight: 500; color: var(--text);
-  font-feature-settings: "cv06" on, "cv11" on, "ss03" on;
-  letter-spacing: -0.15px;
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.02em;
 }
-.topbar-id span { font-weight: 400; color: var(--text-2); }
-
-.theme-btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 7px 14px;
-  background: var(--frosted);
-  border: none;
-  border-radius: 40px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px; font-weight: 500;
-  color: var(--text-2); cursor: pointer;
-  transition: background .15s, color .15s, transform .1s ease;
+.topbar-id span {
+  font-family: var(--font-body);
+  font-size: 13px; font-weight: 400; letter-spacing: 0;
+  color: var(--ink-2); margin-left: 4px;
 }
 
-.icon-sun  { display: block; }
-.icon-moon { display: none; }
-[data-theme="light"] .icon-sun  { display: none; }
-[data-theme="light"] .icon-moon { display: block; }
-
-/* Header */
+/* Header / hero */
 header {
-  padding: 72px 0 64px;
-  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 56px; align-items: center;
+  padding: 64px 0 72px;
+  border-bottom: 1px solid var(--line);
   animation: fadeUp .5s ease both;
 }
+@media (max-width: 820px) {
+  header { grid-template-columns: 1fr; gap: 40px; padding: 44px 0 52px; }
+}
 .eyebrow {
-  font-size: 11px; font-weight: 500; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-2); margin-bottom: 22px;
-  font-feature-settings: "cv06" on, "cv11" on;
+  display: inline-block;
+  font-size: 12px; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink);
+  background: var(--blue);
+  border: var(--stroke) solid var(--ink);
+  border-radius: 999px;
+  padding: 5px 12px; margin-bottom: 24px;
 }
 h1 {
-  font-size: clamp(2.5rem, 6vw, 3.8rem);
-  font-weight: 500;
-  line-height: 0.95;
-  letter-spacing: clamp(-2px, -0.04em, -3px);
-  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6.4vw, 4.6rem);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--ink);
   margin-bottom: 24px;
+  text-wrap: balance;
 }
-h1 em { font-style: normal; color: var(--accent); }
+h1 em {
+  font-style: normal;
+  background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 94%, transparent 94%);
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  padding: 0 .08em; margin: 0 -.08em;
+}
 .tagline {
-  font-size: 15px; color: var(--text-2);
-  max-width: 560px; line-height: 1.6; margin-bottom: 36px;
-  font-feature-settings: var(--ot);
+  font-size: 17px; color: var(--ink-2);
+  max-width: 520px; line-height: 1.6; margin-bottom: 32px;
 }
-.header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.header-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.hero-art { width: 100%; max-width: 400px; justify-self: end; }
+.hero-art svg { display: block; width: 100%; height: auto; overflow: visible; }
+@media (max-width: 820px) {
+  .hero-art { justify-self: start; max-width: 340px; }
+}
 
 /* Buttons */
 .btn {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 10px 18px; border-radius: 100px;
-  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
-  font-feature-settings: "cv06" on, "cv11" on, "ss03" on;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 18px; border-radius: 12px;
+  font-family: var(--font-body); font-size: 14px; font-weight: 600;
   text-decoration: none; cursor: pointer;
-  border: none;
-  transition: background .15s ease, color .15s ease, transform .1s ease; white-space: nowrap;
+  border: var(--stroke) solid var(--ink);
+  white-space: nowrap;
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
 }
-.btn-primary {
-  background: #ffffff;
-  color: #000000;
-  box-shadow: rgba(255,255,255,0.1) 0px 0.5px 0px 0.5px;
-}
-
-.btn-outline {
-  background: var(--frosted);
-  color: var(--text-2);
-}
-
+.btn-primary { background: var(--ink); color: var(--bg); box-shadow: 4px 4px 0 var(--yellow); }
+.btn-outline { background: var(--surface); color: var(--ink); box-shadow: 4px 4px 0 var(--blue); }
 
 /* Sections */
-section { padding: 56px 0; border-bottom: 1px solid var(--border); animation: fadeUp .5s .05s ease both; }
+section { padding: 56px 0; border-bottom: 1px solid var(--line); animation: fadeUp .5s .05s ease both; }
 .section-label {
-  font-size: 11px; font-weight: 500; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--text-2); margin-bottom: 28px;
-  font-feature-settings: "cv06" on, "cv11" on;
+  display: flex; align-items: center; gap: 12px;
+  font-family: var(--font-display);
+  font-size: 24px; font-weight: 700; letter-spacing: -0.02em;
+  color: var(--ink); margin-bottom: 32px;
+}
+.section-label::before {
+  content: ''; flex-shrink: 0;
+  width: 14px; height: 14px;
+  border: var(--stroke) solid var(--ink); border-radius: 4px;
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 var(--blue);
 }
 
 /* App groups */
 .scripts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
-  gap: 10px;
+  gap: 36px 32px;
+  align-items: start;
 }
 @media (max-width: 820px) {
   .scripts-grid { grid-template-columns: 1fr; }
 }
 
-.app-group {
-  border-radius: 12px; overflow: hidden;
-  box-shadow: var(--ring-blue) 0px 0px 0px 1px;
-  transition: box-shadow .2s;
-  background: var(--surface);
-}
+.tint-pink   { --tint: var(--pink); }
+.tint-yellow { --tint: var(--yellow); }
+.tint-blue   { --tint: var(--blue); }
+.tint-green  { --tint: var(--green); }
 
+.app-group {
+  background: var(--surface);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--offset) var(--offset) 0 var(--tint);
+}
 
 .app-header {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 12px;
   padding: 14px 18px;
-  background: var(--surface-2);
-  border-bottom: 1px solid var(--border);
+  background: var(--tint);
+  border-bottom: var(--stroke) solid var(--ink);
 }
-.app-icon { width: 26px; height: 26px; flex-shrink: 0; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
-.app-icon.ppt  { background: #C0382B; }
-.app-icon.chr  { background: #1a73e8; }
-.app-icon.zoom { background: #0B5CFF; }
-.app-icon.pdf  { background: #E34234; }
-.app-icon.spt  { background: #1DB954; }
+.app-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  border: var(--stroke) solid var(--ink);
+  display: flex; align-items: center; justify-content: center;
+}
+.app-icon svg { width: 22px; height: 22px; display: block; }
 .app-name {
-  font-size: 13px; font-weight: 600; color: var(--text);
-  letter-spacing: -0.3px;
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 700; color: var(--ink);
+  letter-spacing: -0.02em;
 }
-.app-meta { margin-left: auto; font-size: 11px; color: var(--text-2); }
+.app-meta { margin-left: auto; font-size: 12px; font-weight: 500; color: var(--ink-3); }
 
 /* Script items — accordion */
 .script-item {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--line);
   background: var(--surface);
 }
 .script-item:last-child { border-bottom: none; }
 
 .script-trigger {
-  display: flex; align-items: center; gap: 0;
+  display: flex; align-items: center;
   width: 100%; padding: 16px 18px;
   background: none; border: none; cursor: pointer;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
   text-align: left; color: inherit;
   transition: background .15s;
 }
-
+.script-item.open .script-trigger {
+  background: #faf8f4;
+  background: color-mix(in srgb, var(--tint) 35%, #fff);
+}
 
 .script-trigger-text { flex: 1; }
 .script-name {
-  font-size: 12px; font-weight: 600; color: var(--text);
-  margin-bottom: 4px; letter-spacing: -0.2px;
-  font-feature-settings: "cv11" on;
+  font-family: var(--font-mono);
+  font-size: 12.5px; font-weight: 600; color: var(--ink);
+  margin-bottom: 5px;
 }
 .script-desc {
-  font-size: 12px; color: var(--text-2); line-height: 1.6; text-align: left;
-  font-feature-settings: var(--ot);
+  font-size: 13px; color: var(--ink-2); line-height: 1.55; text-align: left;
 }
 
 .chevron {
   flex-shrink: 0; margin-left: 12px;
-  color: var(--text-2);
-  transition: transform .2s ease, color .15s;
+  color: var(--ink);
+  transition: transform .2s ease;
 }
-.script-item.open .chevron { transform: rotate(180deg); color: var(--accent); }
+.script-item.open .chevron { transform: rotate(180deg); }
 
 /* Code panel */
 .code-panel {
   display: none;
-  border-top: 1px solid var(--border);
+  border-top: var(--stroke) solid var(--ink);
 }
 .script-item.open .code-panel { display: block; }
 
 .code-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 10px 18px;
-  background: var(--code-bg);
-  border-bottom: 1px solid rgba(255,255,255,.04);
+  background: var(--code-bar);
 }
-
 .code-lang {
-  font-size: 10px; letter-spacing: .08em;
+  font-size: 11px; font-weight: 600; letter-spacing: .08em;
   text-transform: uppercase; color: var(--code-comment);
-  font-feature-settings: "cv06" on, "cv11" on;
 }
 
 .copy-btn {
-  display: flex; align-items: center; gap: 5px;
+  display: flex; align-items: center; gap: 6px;
   padding: 5px 12px;
-  background: var(--frosted);
-  border: none;
-  border-radius: 40px;
-  font-family: 'Inter', sans-serif;
-  font-size: 11px; font-weight: 500;
-  color: var(--text-2); cursor: pointer;
-  transition: background .15s, color .15s, transform .1s ease;
+  background: var(--yellow); color: var(--ink);
+  border: none; border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, transform .1s ease;
 }
-
-.copy-btn.copied { background: rgba(0,153,255,0.12); color: var(--accent); }
+.copy-btn.copied { background: var(--green); }
 
 pre {
   margin: 0;
   padding: 20px 18px;
   background: var(--code-bg);
   overflow-x: auto;
-  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace;
-  font-size: 12px; line-height: 1.75;
+  font-family: var(--font-mono);
+  font-size: 12.5px; line-height: 1.75;
   color: var(--code-text);
 }
 
@@ -265,26 +293,25 @@ pre {
 .c  { color: var(--code-comment); font-style: italic; } /* comment */
 .k  { color: var(--code-keyword); }                     /* keyword */
 .s  { color: var(--code-string); }                      /* string */
-.p  { color: var(--code-text); opacity: .6; }           /* punctuation */
+.p  { color: var(--code-text); opacity: .65; }          /* punctuation */
 
 /* Download */
 .download-card {
   display: flex; align-items: center; gap: 24px;
   padding: 28px;
-  border-radius: 12px;
   background: var(--surface);
-  box-shadow: var(--ring-blue) 0px 0px 0px 1px,
-              rgba(255,255,255,0.05) 0px 0.5px 0px 0.5px;
-  transition: box-shadow .2s;
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--offset) var(--offset) 0 var(--green);
 }
-
 .dl-text { flex: 1; }
 .dl-title {
-  font-size: 14px; font-weight: 600; color: var(--text);
-  margin-bottom: 6px; letter-spacing: -0.3px;
+  font-family: var(--font-display);
+  font-size: 21px; font-weight: 700; color: var(--ink);
+  margin-bottom: 6px; letter-spacing: -0.02em;
 }
-.dl-desc  { font-size: 13px; color: var(--text-2); line-height: 1.6; }
-.dl-actions { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+.dl-desc  { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.dl-actions { display: flex; flex-direction: column; gap: 14px; flex-shrink: 0; }
 
 @media (max-width: 560px) {
   .download-card { flex-direction: column; align-items: flex-start; }
@@ -293,40 +320,33 @@ pre {
 
 /* Footer */
 footer {
-  padding: 32px 0;
+  padding: 32px 0 44px;
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; flex-wrap: wrap;
 }
-.footer-l { font-size: 12px; color: var(--text-2); }
+.footer-l { font-size: 13px; color: var(--ink-2); }
 .footer-l a {
-  color: var(--accent); font-weight: 500; text-decoration: none;
-  transition: opacity .15s;
+  color: var(--ink); font-weight: 600; text-decoration: underline;
+  text-decoration-color: var(--yellow); text-decoration-thickness: 3px;
+  text-underline-offset: 3px;
 }
+.footer-r { font-size: 12px; color: var(--ink-2); }
 
-.footer-r { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.02em; }
-
+/* Foco visible */
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.script-trigger:focus-visible { outline-offset: -4px; }
+.copy-btn:focus-visible { outline-color: var(--bg); outline-offset: 2px; }
 
 @media (hover: hover) and (pointer: fine) {
-.theme-btn:hover { background: var(--frosted-hi); color: var(--text); }
-.btn-primary:hover { background: rgba(255,255,255,0.88); }
-.btn-outline:hover { background: var(--frosted-hi); color: var(--text); }
-.app-group:hover {
-  box-shadow: rgba(0,153,255,0.28) 0px 0px 0px 1px,
-              rgba(0,153,255,0.06) 0px 0px 24px 0px;
+  .btn-primary:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--yellow); }
+  .btn-outline:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--blue); }
+  .script-trigger:hover { background: #faf8f4; }
+  .copy-btn:hover { background: var(--bg); }
 }
-.script-trigger:hover { background: rgba(255,255,255,0.03); }
-.copy-btn:hover { background: var(--frosted-hi); color: var(--text); }
-.download-card:hover {
-  box-shadow: rgba(0,153,255,0.28) 0px 0px 0px 1px,
-              rgba(255,255,255,0.05) 0px 0.5px 0px 0.5px,
-              rgba(0,0,0,0.25) 0px 10px 30px;
-}
-.footer-l a:hover { opacity: .75; }
-}
+.copy-btn.copied, .copy-btn.copied:hover { background: var(--green); }
 
-.btn-primary:active, .btn-outline:active, .theme-btn:active, .copy-btn:active {
-  transform: scale(0.97);
-}
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+.copy-btn:active { transform: scale(0.97); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
@@ -335,14 +355,16 @@ footer {
 
 @media (prefers-reduced-motion: reduce) {
   header, section { animation: none; }
+  .btn, .copy-btn, .chevron, .script-trigger { transition: none; }
 }
 
 /* ── Touch targets WCAG 2.5.5: mínimo 44×44px en dispositivos de toque ── */
 @media (pointer: coarse) {
-  .copy-btn,
-  .theme-btn {
-    min-height: 44px;
-  }
+  .copy-btn { min-height: 44px; }
+}
+
+@media (max-width: 560px) {
+  :root { --offset: 6px; }
 }
 </style>
 </head>
@@ -361,6 +383,7 @@ footer {
 
   <!-- Header -->
   <header>
+    <div class="hero-text">
     <div class="eyebrow">QLab 5 · macOS · AppleScript</div>
     <h1>QLab +<br><em>aplicaciones externas</em></h1>
     <p class="tagline">
@@ -374,6 +397,30 @@ footer {
       </a>
       <a href="#descarga" class="btn btn-outline">Descargar sesión .qlab5</a>
     </div>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <svg viewBox="0 0 400 290" role="presentation" focusable="false">
+        <g fill="none" stroke="#1f1d1a" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+          <rect x="24" y="24" width="356" height="76" rx="14" fill="#d5e7d0" stroke="none"/>
+          <rect x="14" y="14" width="356" height="76" rx="14"/>
+          <circle cx="50" cy="52" r="19"/>
+          <path d="M45 43 L60 52 L45 61 Z" fill="#1f1d1a"/>
+          <path d="M92 44 H340 M92 60 H298"/>
+
+          <rect x="24" y="114" width="356" height="76" rx="14" fill="#cbe6f7" stroke="none"/>
+          <rect x="14" y="104" width="356" height="76" rx="14"/>
+          <circle cx="50" cy="142" r="19"/>
+          <circle cx="50" cy="142" r="4.5" fill="#1f1d1a" stroke="none"/>
+          <path d="M92 134 H340 M92 150 H298"/>
+
+          <rect x="24" y="204" width="356" height="76" rx="14" fill="#f2da8e" stroke="none"/>
+          <rect x="14" y="194" width="356" height="76" rx="14"/>
+          <circle cx="50" cy="232" r="19"/>
+          <circle cx="50" cy="232" r="4.5" fill="#1f1d1a" stroke="none"/>
+          <path d="M92 224 H340 M92 240 H298"/>
+        </g>
+      </svg>
+    </div>
   </header>
 
   <!-- Scripts -->
@@ -382,15 +429,10 @@ footer {
     <div class="scripts-grid">
 
       <!-- PowerPoint -->
-      <div class="app-group">
+      <div class="app-group tint-pink">
         <div class="app-header">
           <div class="app-icon ppt">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1" y="3" width="9" height="10" rx="1" fill="white" opacity="0.25"/>
-              <rect x="3" y="1" width="9" height="10" rx="1" fill="white" opacity="0.4"/>
-              <rect x="5" y="3" width="9" height="10" rx="1.2" fill="white" opacity="0.9"/>
-              <text x="6.5" y="11" font-family="Arial" font-weight="700" font-size="7" fill="#C0382B">P</text>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f1d1a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="5.5" y="7.5" width="15" height="11" rx="2" fill="#f5cfcd" stroke="none"/><rect x="3.5" y="5.5" width="15" height="11" rx="2"/><path d="M7.5 9.6 H14.5 M7.5 12.4 H12"/></svg>
           </div>
           <span class="app-name">PowerPoint</span>
           <span class="app-meta">Microsoft 365 · Mac</span>
@@ -487,19 +529,10 @@ footer {
       </div>
 
       <!-- Chrome -->
-      <div class="app-group">
+      <div class="app-group tint-yellow">
         <div class="app-header">
           <div class="app-icon chr">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="8" cy="8" r="3.5" fill="white"/>
-              <circle cx="8" cy="8" r="2" fill="#1a73e8"/>
-              <path d="M8 4.5 L13.5 8" stroke="#EA4335" stroke-width="3" stroke-linecap="round"/>
-              <path d="M13.5 8 L8 11.5" stroke="#FBBC05" stroke-width="3" stroke-linecap="round"/>
-              <path d="M8 11.5 L2.5 8" stroke="#34A853" stroke-width="3" stroke-linecap="round"/>
-              <path d="M2.5 8 L8 4.5" stroke="#EA4335" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="8" cy="8" r="2.5" fill="white"/>
-              <circle cx="8" cy="8" r="1.6" fill="#1a73e8"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f1d1a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="13" cy="13" r="8.5" fill="#f2da8e" stroke="none"/><circle cx="11.5" cy="11.5" r="8.5"/><circle cx="11.5" cy="11.5" r="3.2"/><path d="M11.5 8.3 V3 M8.73 13.1 L4.14 15.75 M14.27 13.1 L18.86 15.75"/></svg>
           </div>
           <span class="app-name">Google Chrome</span>
           <span class="app-meta">Chrome 124+</span>
@@ -583,13 +616,10 @@ footer {
       </div>
 
       <!-- Zoom -->
-      <div class="app-group">
+      <div class="app-group tint-blue">
         <div class="app-header">
           <div class="app-icon zoom">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1.5" y="4.5" width="8.5" height="7" rx="1.5" fill="white" opacity="0.9"/>
-              <path d="M10 7.2 L14.5 5 L14.5 11 L10 8.8 Z" fill="white" opacity="0.9"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f1d1a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="4.5" y="8.5" width="13" height="10" rx="2.2" fill="#cbe6f7" stroke="none"/><rect x="3" y="7" width="13" height="10" rx="2.2"/><path d="M16 11 L21 8.2 V15.8 L16 13 Z"/></svg>
           </div>
           <span class="app-name">Zoom</span>
           <span class="app-meta">zoom.us</span>
@@ -670,17 +700,10 @@ footer {
       </div>
 
       <!-- PDF / Preview -->
-      <div class="app-group">
+      <div class="app-group tint-pink">
         <div class="app-header">
           <div class="app-icon pdf">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="1" width="9" height="12" rx="1.2" fill="white" opacity="0.85"/>
-              <path d="M9 1 L9 4.5 L12.5 4.5" stroke="white" stroke-width="1" opacity="0.5" fill="none"/>
-              <path d="M9 1 L12.5 4.5 L12.5 13 L2 13 L2 1 Z" fill="none"/>
-              <rect x="4" y="6.5" width="5.5" height="1" rx="0.5" fill="#E34234"/>
-              <rect x="4" y="8.5" width="4" height="1" rx="0.5" fill="#E34234"/>
-              <rect x="4" y="10.5" width="5" height="1" rx="0.5" fill="#E34234"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f1d1a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6.5 5.5 H14 L19 10.5 V21 H6.5 Z" fill="#f5cfcd" stroke="none"/><path d="M5 4 H12.5 L17.5 9 V19.5 H5 Z"/><path d="M12.5 4 V9 H17.5"/><path d="M8 13 H14.5 M8 16 H13"/></svg>
           </div>
           <span class="app-name">PDF / Preview</span>
           <span class="app-meta">macOS Preview</span>
@@ -764,15 +787,10 @@ footer {
       </div>
 
       <!-- Spotify -->
-      <div class="app-group">
+      <div class="app-group tint-green">
         <div class="app-header">
           <div class="app-icon spt">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="8" cy="8" r="7" fill="#1DB954"/>
-              <path d="M4.5 6.2 C6.5 5.5 9.5 5.7 11.5 6.8" stroke="white" stroke-width="1.3" stroke-linecap="round"/>
-              <path d="M5 8.2 C6.7 7.6 9.2 7.8 10.8 8.7" stroke="white" stroke-width="1.1" stroke-linecap="round"/>
-              <path d="M5.5 10.1 C7 9.6 8.8 9.8 10 10.5" stroke="white" stroke-width="0.9" stroke-linecap="round"/>
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f1d1a" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><circle cx="13" cy="13" r="8.5" fill="#d5e7d0" stroke="none"/><circle cx="11.5" cy="11.5" r="8.5"/><path d="M7 9.3 C9.5 8.5 13.5 8.7 16 10.1 M7.7 12.2 C9.9 11.6 13 11.8 15.2 13 M8.4 14.9 C10.2 14.5 12.5 14.6 14 15.4"/></svg>
           </div>
           <span class="app-name">Spotify</span>
           <span class="app-meta">spotify.com · Mac</span>
